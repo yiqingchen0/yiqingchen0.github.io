@@ -79,11 +79,6 @@ const isExternal = (href: string): boolean => /^[a-z][a-z\d+.-]*:/i.test(href);
 			materials.length > 0 && (
 				<section class="materials container" aria-labelledby="materials-title">
 					<SectionHead index="01" title="Course materials" id="materials-title" />
-					<p class="materials__note grid muted" data-reveal>
-						<span>
-							Interactive labs run in your browser with no sign-in or installation required.
-						</span>
-					</p>
 					<ul class="materials__list" role="list">
 						{
 							materials.map((material) => (
@@ -176,17 +171,6 @@ const isExternal = (href: string): boolean => /^[a-z][a-z\d+.-]*:/i.test(href);
 		padding-bottom: clamp(4rem, 10vw, 8rem);
 	}
 
-	.materials__note {
-		margin-top: calc(-1 * clamp(1rem, 2vw, 2rem));
-		margin-bottom: clamp(2rem, 4vw, 3rem);
-		font-size: var(--fs-small);
-	}
-
-	.materials__note > span {
-		grid-column: 4 / span 6;
-		max-width: 56ch;
-	}
-
 	.materials__list {
 		padding: 0;
 		list-style: none;
@@ -273,8 +257,7 @@ const isExternal = (href: string): boolean => /^[a-z][a-z\d+.-]*:/i.test(href);
 		.course-page__back,
 		.course-page__title,
 		.course-page__summary,
-		.course-page__facts,
-		.materials__note > span {
+		.course-page__facts {
 			grid-column: 1 / -1;
 		}
 
