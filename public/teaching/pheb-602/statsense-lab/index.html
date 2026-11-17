@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <title>StatSense Lab · Biostatistics I</title>
+  <link rel="icon" href="assets/favicon.svg?v=statsense-1" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css?v=statsense-1">
+  <script src="data.js" defer></script>
+  <script src="engine.js?v=statsense-1" defer></script>
+  <script src="assessment.js?v=statsense-1" defer></script>
+  <script src="app.js?v=statsense-1" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#conversation">Skip to conversation</a>
+  <aside id="sidebar" class="sidebar" aria-label="Conversation sidebar">
+    <div class="sidebar-top"><a class="brand" href="#" id="home" aria-label="StatSense Lab home"><span class="agent-logo"><svg class="agent-triangle" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 5 L44.78461 41 H3.21539 Z" fill="currentColor"/></svg></span><span class="brand-label"><span class="brand-name">StatSense Lab</span><span class="brand-sub">PHEB 602 · BIOSTATISTICS I</span></span></a><button class="icon-button" id="collapse-side" aria-label="Hide sidebar">◫</button></div>
+    <button class="side-button new-chat" id="new-chat"><span>＋</span><span data-i18n="new">New chat</span><kbd>⌘ K</kbd></button>
+    <button class="side-button" id="open-data"><span class="nav-icon">▤</span><span data-i18n="dataset">Data files</span><span class="side-tag">NHEFS</span></button>
+    <button class="side-button" id="open-workflow"><span class="nav-icon">↗</span><span data-i18n="workflow">Analysis outline</span></button>
+    <div class="history-label" data-i18n="history">Your conversations</div>
+    <nav id="history" aria-label="Recent conversations"></nav>
+    <div class="sidebar-bottom"><button class="side-button" id="open-teaching"><span class="nav-icon">◈</span><span data-i18n="teaching">Teaching notes</span></button><div class="course-person"><span class="course-avatar">602</span><div><strong>PHEB 602</strong><small>Biostatistics I · Local lab</small></div><span class="offline-dot" title="Works offline"></span></div></div>
+  </aside>
+  <div class="app-shell">
+    <header class="header"><div class="header-left"><button class="icon-button" id="expand-side" aria-label="Show sidebar">☰</button><span class="model-name">Agent <span>⌄</span></span><span class="header-context" id="header-context">Statistics assistant</span></div><div class="header-actions"><span class="language-label">Stata</span><button class="header-button" id="open-notes"><span>⚑</span><span data-i18n="notes">My error reports</span><small id="note-count">0</small></button><button class="header-button review-button" id="finish"><span data-i18n="finish">Finish &amp; score</span><span>↗</span></button></div></header>
+    <main class="conversation" id="conversation" tabindex="-1"><div id="messages" class="messages"></div></main>
+    <div class="composer-area"><div id="suggestions" class="suggestions"></div><form id="chat-form" class="composer"><div class="attachment"><span class="file-icon">▤</span><div><strong>nhefs_teaching.csv</strong><small id="attachment-caption">1,629 rows · observed + simulated variables</small></div><button type="button" class="icon-button" id="preview-file" aria-label="Preview attached dataset">↗</button></div><textarea id="prompt" rows="1" maxlength="4000" placeholder="Ask about the data, a plot, a test, or a regression…" aria-label="Message Agent"></textarea><div class="composer-bottom"><div><button type="button" class="composer-tool" id="data-tool" aria-label="Open dataset">＋</button><span class="context-tag" id="composer-context">NHEFS · Biostat I</span></div><button type="submit" class="send-button" id="send" aria-label="Send message">↑</button></div></form><p class="composer-disclaimer" id="disclaimer">Course simulation. Agent may make statistical mistakes. Check the reasoning independently.</p></div>
+  </div>
+  <div id="sidebar-shade"></div>
+  <dialog id="dialog"><div class="dialog-top"><div id="dialog-heading"></div><button class="icon-button" id="close-dialog" aria-label="Close dialog">✕</button></div><div id="dialog-body"></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
