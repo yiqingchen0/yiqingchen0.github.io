@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="An interactive Wilcoxon signed-rank and rank-sum teaching laboratory for PHEB 602. Edit observations, follow their ranks, and explore exact null distributions.">
+<title>Wilcoxon Lab | PHEB 602</title>
+<style>
+:root{--paper:#f7f4ee;--card:#fffefa;--ink:#24343d;--muted:#65716f;--border:#dedbd2;--maroon:#500000;--teal:#087e80;--teal-pale:#e4f2ef;--purple:#7457a7;--purple-pale:#f0eafa;--negative:#b34b61;--negative-pale:#fae9ee;--gold:#c18e33;--shadow:0 5px 24px #25363106;--mono:ui-monospace,SFMono-Regular,Consolas,monospace}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Avenir,"Segoe UI",Arial,sans-serif;font-size:15px;line-height:1.48;padding-bottom:47px}button,input,select{font:inherit}button,select{cursor:pointer}button{touch-action:manipulation}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,[tabindex]:focus-visible{outline:3px solid #c18e33;outline-offset:3px}button:disabled{opacity:.45;cursor:default}button{color:var(--ink)}a{color:var(--maroon)}h1,h2,h3,p{margin:0}h1{font-size:38px;letter-spacing:-1.4px;line-height:1.12}h2{font-size:20px;letter-spacing:-.45px}h3{font-size:16px;letter-spacing:-.15px}small{font-size:12px}sub,sup{font-size:.72em}.mono,.number,td{font-variant-numeric:tabular-nums}.shell{max-width:1480px;margin:auto;padding:30px 38px 42px}.eyebrow{font-size:11px;letter-spacing:2px;font-weight:750;color:var(--maroon);text-transform:uppercase}.masthead{display:flex;gap:24px;justify-content:space-between;align-items:flex-end;padding-bottom:25px;border-bottom:1px solid var(--border)}.masthead .eyebrow{margin-bottom:10px}.subtitle{color:var(--muted);margin-top:10px;max-width:670px;font-size:15px}.offline{display:flex;align-items:center;gap:7px;white-space:nowrap;color:var(--muted);font-size:12px}.offline i{width:7px;height:7px;border-radius:50%;background:var(--teal)}.tabs{display:flex;margin-top:24px;gap:10px}.tab{border:1px solid var(--border);border-radius:10px 10px 0 0;background:transparent;padding:15px 22px;text-align:left;min-width:260px;display:flex;gap:14px;align-items:center}.tab strong{font-size:17px;display:block}.tab small{display:block;margin-top:2px;color:var(--muted)}.tab .tab-icon{font-family:Georgia,serif;font-size:28px}.tab[aria-selected="true"]{background:var(--maroon);border-color:var(--maroon);color:white}.tab[aria-selected="true"] small{color:#eadcdb}.concept{display:flex;align-items:center;justify-content:space-between;gap:28px;padding:20px 0 18px}.concept p{max-width:840px;font-size:16px}.pill{white-space:nowrap;border:1px solid var(--border);border-radius:99px;padding:7px 12px;font-size:12px;background:var(--card)}.concept strong{color:var(--maroon)}.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:15px 18px;background:#efede5;border-radius:10px}.controls label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-right:2px}.controls select{min-width:245px;max-width:100%;border:1px solid #cbc8bd;background:var(--card);border-radius:6px;padding:9px 30px 9px 10px}.button{border:1px solid #cecbbf;background:var(--card);padding:9px 13px;border-radius:7px;font-weight:600;font-size:13px;transition:background .15s}.button:hover:not(:disabled){background:#e8e5da}.button.primary{background:var(--maroon);border-color:var(--maroon);color:white}.button.primary:hover{background:#6b1717}.button.small{padding:6px 10px;font-size:12px}.spacer{flex:1}.micro{font-size:12px;color:var(--muted)}.section{margin-top:25px}.section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:13px}.section-title{display:flex;gap:12px;align-items:flex-start}.step{font-size:12px;font-weight:700;color:var(--maroon);background:#ede3dc;min-width:29px;height:29px;border-radius:50%;display:flex;justify-content:center;align-items:center;margin-top:1px}.section-head p{color:var(--muted);font-size:13px;margin-top:3px}.card{background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);min-width:0}.edit-grid{display:grid;grid-template-columns:minmax(0,1.14fr) minmax(0,1fr);gap:17px;align-items:stretch}.editor-card{padding:17px 18px 14px}.plot-card{padding:17px 19px 14px;display:flex;flex-direction:column}.panel-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px}.legend{display:flex;flex-wrap:wrap;gap:13px;align-items:center;font-size:12px}.legend span{display:inline-flex;align-items:center;gap:5px}.dot{width:9px;height:9px;background:var(--teal);border-radius:50%;display:inline-block}.dot.b{background:var(--purple);border-radius:1px}.dot.neg{background:var(--negative)}.dot.tail{background:var(--maroon);border-radius:2px}.dot.other{background:#c9d5d1;border-radius:2px}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}th{text-align:right;color:var(--muted);font-size:11px;line-height:1.35;font-weight:650;letter-spacing:.1px;padding:8px 7px;border-bottom:1px solid var(--border);white-space:nowrap}th:first-child,td:first-child{text-align:left}td{height:44px;text-align:right;padding:5px 7px;border-bottom:1px solid #efede6;white-space:nowrap}tr:last-child td{border-bottom:0}.selected-row{background:#f5f2e8}.row-id{font-weight:650;cursor:pointer}.row-id.active{color:var(--maroon)}.value-input{width:66px;padding:5px 5px;border:1px solid #d5d8ce;border-radius:5px;background:white;text-align:right;font-size:14px;font-weight:600;appearance:textfield;-moz-appearance:textfield}.value-input::-webkit-inner-spin-button,.value-input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.value-input.group-a{border-bottom:2px solid var(--teal)}.value-input.group-b{border-bottom:2px solid var(--purple)}.rank-cell{font-weight:750}.positive{color:var(--teal)}.negative{color:var(--negative)}.zero{color:#959b97}.signed-badge{font-weight:700;display:inline-block;min-width:32px;padding:2px 5px;border-radius:4px;background:var(--teal-pale)}.signed-badge.negative{background:var(--negative-pale)}.data-note{font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:11px;margin-top:9px;line-height:1.5}.groups{display:grid;grid-template-columns:1fr 1fr;gap:20px}.group-label{padding:7px 8px;border-radius:5px;font-size:13px;font-weight:700;background:var(--teal-pale);color:#12686b;margin-bottom:6px}.group-label.b{background:var(--purple-pale);color:#62428e}.size-tools{margin-top:10px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}.size-tools .micro{margin-right:auto}.plot{display:block;width:100%;overflow:visible;touch-action:none;user-select:none}.plot text{font-family:Inter,Avenir,"Segoe UI",Arial,sans-serif;fill:var(--muted);font-size:11px}.plot .point-label{fill:var(--ink);font-size:11px;font-weight:650}.plot .handle{cursor:ew-resize}.plot .handle:focus{outline:none}.plot .handle:focus-visible .focus-ring{stroke:var(--gold);stroke-width:3;fill:none}.plot-caption{font-size:12px;color:var(--muted);margin-top:5px}.slider-box{margin-top:auto;padding-top:12px}.slider-top{display:flex;justify-content:space-between;gap:10px;font-size:12px;align-items:center}.slider-top select{border:1px solid var(--border);border-radius:5px;background:var(--card);padding:4px 6px;max-width:210px}.slider-top output{font-family:var(--mono);font-size:13px;font-weight:650}.slider-box input[type=range]{width:100%;accent-color:var(--maroon);margin:11px 0 2px;cursor:ew-resize}.feedback{display:flex;gap:10px;align-items:baseline;border-left:3px solid var(--teal);padding:10px 13px;background:#edf3ee;border-radius:0 6px 6px 0;margin-top:13px;font-size:13px;min-height:44px}.feedback b{white-space:nowrap}.feedback.changed{border-color:var(--maroon);background:#f0e6e0}.rank-panel{padding:19px 19px 14px}.rank-key{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:13px}.rank-key .arrow{padding:0 6px;color:var(--maroon)}.rank-strip{position:relative;min-height:95px}.rank-tile{position:absolute;width:85px;height:101px;left:0;top:0;transition:transform .3s ease,background .3s,border-color .3s;border:1px solid var(--border);border-top:3px solid var(--teal);border-radius:7px;padding:8px 5px;text-align:center;background:var(--card);cursor:pointer}.rank-tile.negative{border-top-color:var(--negative)}.rank-tile.group-b{border-top-color:var(--purple)}.rank-tile.selected{box-shadow:0 0 0 2px #c18e3380;background:#fffaf0}.rank-tile.changed{background:#fff2d7;border-color:#d2a85b}.rank-tile .identity{font-size:11px;font-weight:650;color:var(--muted)}.rank-tile .raw-value{font-size:12px;color:var(--ink);margin:1px 0}.rank-tile .rank-number{font-size:22px;font-weight:750;line-height:1.2;color:var(--ink)}.rank-tile .rank-number small{display:block;font-size:9px;line-height:1.3;color:var(--muted);font-weight:500;margin:0}.tie-note{font-size:12px;color:var(--muted);padding-top:9px}.zero-chip{display:inline-block;border:1px dashed #c6c7bd;border-radius:5px;padding:4px 9px;margin-right:6px;color:var(--muted);font-size:12px}.below-ranks{display:flex;justify-content:space-between;gap:16px;margin-top:10px;align-items:center;flex-wrap:wrap}.experiments{display:flex;gap:7px;flex-wrap:wrap}.experiment-lead{font-size:12px;align-self:center;color:var(--muted);margin-right:3px}.outcome-grid{display:grid;grid-template-columns:320px minmax(0,1fr);gap:17px}.stat-panel{padding:22px}.stat-kicker{font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:700;color:var(--muted)}.stat-p{font-size:47px;letter-spacing:-1.7px;font-weight:700;color:var(--maroon);line-height:1.3;margin:4px 0 1px}.p-fraction{font-size:12px;color:var(--muted);min-height:37px}.decision{font-size:13px;padding:9px 11px;margin-top:12px;border-radius:6px;background:#eef1e8;color:#425c51}.decision.reject{background:#f6e8e4;color:var(--maroon)}.alpha-control{display:flex;align-items:center;gap:7px;font-size:12px;margin-top:12px;color:var(--muted)}.alpha-control select{background:transparent;border:1px solid var(--border);padding:3px 5px;border-radius:4px}.stats-mini{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px;border-top:1px solid var(--border);padding-top:14px}.stat-mini-label{color:var(--muted);font-size:12px}.stat-mini-value{font-family:var(--mono);font-size:21px;font-weight:650}.tiny-note{font-size:11px;color:var(--muted);line-height:1.5;margin-top:12px}.dist-panel{padding:20px 23px 15px}.dist-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}.dist-head .legend{font-size:11px}.dist-panel .plot{margin-top:7px}.dist-note{font-size:13px;margin-top:5px;line-height:1.55}.draw-panel{border-top:1px solid var(--border);padding-top:12px;margin-top:13px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}.draw-results{font-size:12px;color:var(--muted);flex:1;min-width:200px}.draw-pill{display:inline-block;border-radius:3px;padding:2px 6px;margin-right:2px;font-weight:600;background:#e8ede6}.draw-pill.tail{background:#f1dfd9;color:var(--maroon)}.learn-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-top:22px}.learning{padding:19px 21px}.learning h3{margin-bottom:8px}.learning p{font-size:13px;color:#53615f;line-height:1.6}.comparison-line{display:flex;justify-content:space-between;gap:14px;padding:8px 0;font-size:13px;border-bottom:1px solid #eceae1}.comparison-line:last-child{border:0}.comparison-line .number{font-weight:700;color:var(--ink)}.learning .prompt{margin-top:10px;border-top:1px solid var(--border);padding-top:10px}.details{margin-top:19px;border:1px solid var(--border);border-radius:9px;background:#f3f0e8}.details summary{padding:13px 17px;cursor:pointer;font-size:13px;font-weight:650}.detail-body{padding:0 18px 18px;display:grid;grid-template-columns:1fr 1fr;gap:22px;font-size:13px;color:#56615e}.detail-body h3{margin-bottom:7px;color:var(--ink)}.detail-body p+p{margin-top:9px}.formula{background:var(--card);border:1px solid #e5e1d6;border-radius:6px;padding:10px 11px;margin:9px 0;font-family:Georgia,serif;font-size:15px;color:var(--ink);overflow-wrap:anywhere}.references{border-top:1px solid var(--border);padding-top:10px;margin-top:12px;font-size:11px}.footer{position:fixed;bottom:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:flex-end;min-height:35px;padding:8px 26px;background:#f7f4eef5;border-top:1px solid #ddd9ce;color:#66706b;font-size:10px;letter-spacing:.45px;backdrop-filter:blur(8px)}.hidden{display:none!important}.sr-only{position:absolute;clip:rect(0,0,0,0);clip-path:inset(50%);height:1px;width:1px;overflow:hidden;white-space:nowrap}.svg-observed-label{font-weight:700!important;fill:var(--maroon)!important}noscript{display:block;padding:20px;background:#fff0cc;color:var(--maroon)}
+@media(min-width:1500px){.shell{padding-top:38px}.edit-grid{grid-template-columns:1.17fr 1fr}}
+@media(max-width:1050px){.shell{padding:24px 24px 35px}.edit-grid{grid-template-columns:1fr}.plot-card{min-height:0}.plot-card .plot{max-height:420px}.outcome-grid{grid-template-columns:270px minmax(0,1fr)}.offline{display:none}.value-input{width:76px}.tab{flex:1;min-width:0}.concept{gap:12px}.pill{white-space:normal;text-align:center}}
+@media(max-width:720px){.shell{padding:22px 14px 28px}h1{font-size:31px}h2{font-size:18px}.masthead{padding-bottom:20px}.subtitle{font-size:14px}.tabs{gap:6px;margin-top:18px}.tab{padding:12px 10px;gap:7px}.tab strong{font-size:14px}.tab small{font-size:10px}.tab .tab-icon{font-size:22px}.concept{display:block}.concept p{font-size:14px}.pill{display:inline-block;margin-top:9px;font-size:11px}.controls{padding:12px;gap:8px}.controls select{min-width:0;flex:1}.controls label{font-size:11px}.controls .micro{display:none}.controls .spacer{display:none}.editor-card,.plot-card{padding:13px 11px}.section-head{gap:8px}.section-head p{font-size:12px}.value-input{width:55px;font-size:13px}th,td{padding:5px 4px}table{font-size:12px}.groups{gap:10px}.groups .value-input{width:62px}.panel-head{align-items:flex-start}.panel-head h3{font-size:14px}.outcome-grid{grid-template-columns:1fr}.stat-panel{padding:17px}.stat-top{display:grid;grid-template-columns:1fr 1fr;gap:12px}.stats-mini{grid-template-columns:repeat(4,1fr);gap:8px;margin-top:13px;padding-top:12px}.stat-mini-value{font-size:19px}.stat-p{font-size:41px}.decision{margin-top:2px}.alpha-control{margin-top:7px}.dist-panel{padding:15px 12px}.dist-head h3{font-size:15px}.learn-grid,.detail-body{grid-template-columns:1fr}.feedback{font-size:12px;align-items:flex-start;gap:7px}.feedback b{white-space:normal;min-width:58px}.rank-panel{padding:15px 12px}.footer{padding:8px 10px;font-size:9px;letter-spacing:.2px}.learning{padding:16px}.rank-key{font-size:11px;gap:4px}.rank-key .arrow{padding:0 2px}.section{margin-top:21px}.below-ranks{margin-top:5px}.p-fraction{font-size:11px}.plot text{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+@media print{body{padding:0}.shell{max-width:none;padding:10px}.controls,.experiments,.slider-box,.size-tools,.draw-panel,.alpha-control{display:none}.footer{position:static;margin-top:12px}.card{break-inside:avoid}.section{break-inside:avoid}.edit-grid{grid-template-columns:1fr 1fr}.outcome-grid{grid-template-columns:260px 1fr}.learn-grid{grid-template-columns:1fr 1fr}button{border:0}}
+
+.sum-equations{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.sum-equation{border-radius:5px;background:#edf3ed;padding:8px 10px;font-size:13px;line-height:1.6}.sum-equation.negative{background:#f8ecee}.sum-equation.group-b{background:#f0eafa;color:#62428e}.sum-equation strong{white-space:nowrap}.rank-adjust{display:flex;align-items:center;gap:13px;margin-top:13px;padding-top:13px;border-top:1px solid var(--border);font-size:12px}.rank-adjust label{white-space:nowrap}.rank-adjust select{border:1px solid var(--border);border-radius:5px;background:var(--card);padding:4px 5px;margin-left:5px}.rank-adjust input{flex:1;min-width:60px;accent-color:var(--maroon);cursor:ew-resize}.rank-adjust output{min-width:78px;font-family:var(--mono);text-align:right}.footer{justify-content:space-between;gap:15px;min-height:39px}.live-summary{font-size:12px;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:0}.live-summary strong{color:var(--maroon)}.live-summary .live-label{font-size:9px;letter-spacing:1px;font-weight:700;color:var(--muted);margin-right:10px}.course-credit{margin-left:auto;text-align:right}
+@media(max-width:720px){.sum-equations{grid-template-columns:1fr;gap:6px}.rank-adjust{gap:7px;flex-wrap:wrap}.rank-adjust label{width:100%}.rank-adjust output{min-width:65px}.footer{flex-wrap:wrap;gap:2px;padding:7px 10px}.live-summary{font-size:11px;width:100%}.course-credit{font-size:9px}body{padding-bottom:65px}}
+</style>
+</head>
+<body>
+<noscript>This laboratory needs JavaScript. Open the downloaded HTML file in a browser with JavaScript enabled.</noscript>
+<div class="shell">
+  <header class="masthead"><div><div class="eyebrow">PHEB 602 / THE NONPARAMETRIC LAB</div><h1>See the ranks. Understand the test.</h1><p class="subtitle">Change a value. Follow its rank. Discover how a Wilcoxon statistic becomes a p value.</p></div><div class="offline"><i></i>Interactive · works offline</div></header>
+  <nav class="tabs" role="tablist" aria-label="Choose a Wilcoxon test">
+    <button class="tab" id="tab-signed" role="tab" aria-selected="true" aria-controls="lab" data-mode="signed"><span class="tab-icon" aria-hidden="true">±</span><span><strong>Wilcoxon Signed-Rank</strong><small>Paired measurements · rank the differences</small></span></button>
+    <button class="tab" id="tab-ranksum" role="tab" aria-selected="false" aria-controls="lab" data-mode="ranksum" tabindex="-1"><span class="tab-icon" aria-hidden="true">Σ</span><span><strong>Wilcoxon Rank-Sum</strong><small>Independent groups · rank all observations</small></span></button>
+  </nav>
+  <main id="lab" role="tabpanel" aria-labelledby="tab-signed">
+    <div class="concept"><p id="concept-text"></p><span class="pill" id="design-pill"></span></div>
+    <div class="controls"><label for="preset">Explore</label><select id="preset" aria-label="Choose an example"></select><button class="button" id="reset">Reset example</button><button class="button" id="undo" disabled>Undo edit</button><span class="spacer"></span><span class="micro">Illustrative data · two-sided tests</span></div>
+    <section class="section" aria-labelledby="edit-title"><div class="section-head"><div class="section-title"><span class="step">01</span><div><h2 id="edit-title">Change the observations</h2><p id="edit-subtitle">Edit a number, drag a point, or use the selected-value slider.</p></div></div></div>
+      <div class="edit-grid"><div class="card editor-card"><div class="panel-head"><h3 id="editor-title"></h3><span id="sample-badge" class="micro"></span></div><div id="editor"></div><div id="data-note" class="data-note"></div></div>
+      <div class="card plot-card"><div class="panel-head"><h3>Move a value along the scale</h3><div class="legend"><span><i class="dot"></i> A</span><span><i class="dot b"></i> B</span></div></div><svg id="raw-plot" class="plot" role="group" aria-label="Draggable observation plot"></svg><p class="plot-caption" id="raw-caption"></p><div class="slider-box"><div class="slider-top"><label for="selected-point">Selected <select id="selected-point"></select></label><output id="selected-output" for="value-slider"></output></div><input id="value-slider" type="range" min="-10" max="60" step="0.1" aria-label="Adjust selected observation"></div></div></div>
+      <div id="feedback" class="feedback" role="status" aria-live="polite"><b>Try it</b><span id="feedback-text"></span></div>
+    </section>
+    <section class="section" aria-labelledby="rank-title"><div class="section-head"><div class="section-title"><span class="step">02</span><div><h2 id="rank-title">Follow the ranks</h2><p id="rank-subtitle"></p></div></div><div class="legend" id="rank-legend"></div></div>
+      <div class="card rank-panel"><div class="rank-key" id="rank-key"></div><div id="rank-strip" class="rank-strip" aria-label="Observations ordered by rank"></div><div id="zero-chips"></div><div id="sum-equations" class="sum-equations"></div><div class="rank-adjust"><label for="rank-selected">Adjust <select id="rank-selected" aria-label="Observation to adjust while viewing ranks"></select></label><input type="range" id="rank-slider" step="0.1" aria-label="Adjust observation while viewing ranks"><output id="rank-value" for="rank-slider"></output></div><p id="tie-note" class="tie-note"></p><div class="below-ranks"><span id="rank-total-note" class="micro"></span><div class="experiments"><span class="experiment-lead">Try a transformation</span><button class="button small" id="flip">Flip selected sign</button><button class="button small" id="stretch">Stretch the largest change</button><button class="button small" id="scale">×2 all values</button></div></div></div>
+    </section>
+    <section class="section" aria-labelledby="p-title"><div class="section-head"><div class="section-title"><span class="step">03</span><div><h2 id="p-title">Turn ranks into evidence</h2><p id="p-subtitle"></p></div></div></div>
+      <div class="outcome-grid"><div class="card stat-panel"><div class="stat-top"><div><div class="stat-kicker">Exact two-sided p value</div><div id="p-value" class="stat-p number"></div><div id="p-fraction" class="p-fraction"></div></div><div><div id="decision" class="decision"></div><div class="alpha-control"><label for="alpha">Compare with α</label><select id="alpha"><option value="0.01">0.01</option><option value="0.05" selected>0.05</option><option value="0.1">0.10</option></select></div></div></div><div id="stats-mini" class="stats-mini"></div><p id="stats-note" class="tiny-note"></p></div>
+      <div class="card dist-panel"><div class="dist-head"><h3 id="null-title">The exact null distribution</h3><div class="legend"><span><i class="dot tail"></i> At least as extreme</span><span><i class="dot other"></i> Other outcomes</span></div></div><svg id="null-plot" class="plot" role="img" aria-label="Exact null distribution with two-sided p-value highlighted"></svg><div id="dist-note" class="dist-note"></div><div class="draw-panel"><button class="button small" id="draw-null">Try one null assignment</button><div id="draw-results" class="draw-results">Keep the ranks fixed. What might happen under H₀?</div></div></div></div>
+    </section>
+    <div class="learn-grid"><section class="card learning"><h3 id="why-title"></h3><div id="why-content"></div></section><section class="card learning"><h3>Predict before you drag</h3><p id="challenge"></p><p class="prompt" id="key-idea"></p></section></div>
+    <details class="details"><summary>How this lab calculates the test · assumptions, ties &amp; formulas</summary><div id="method-notes" class="detail-body"></div></details>
+  </main>
+</div>
+<footer class="footer"><span class="live-summary" id="live-summary"></span><span class="course-credit">PHEB 602 &nbsp;•&nbsp; BIOSTATISTICS I &nbsp;•&nbsp; Yiqing Chen 2026</span></footer>
+<script>
+/* Exact, dependency-free Wilcoxon calculations for small classroom samples.
+ * Signed ranks: condition on nonzero absolute differences and flip their signs.
+ * Rank sums: condition on pooled values and permute group labels at fixed sizes.
+ * Two-sided p values include all outcomes at least as far from the null mean
+ * as the observed statistic. Ties receive average ranks; zero paired
+ * differences are omitted (the conventional Wilcoxon zero method).
+ */
+(function (root) {
+  'use strict';
+
+  const MAX_PAIRS = 10;
+  const MAX_GROUP = 8;
+  const CACHE_LIMIT = 64;
+  const signCache = new Map();
+  const groupCache = new Map();
+  const EPS = 1e-9;
+
+  function validate(values, name) {
+    if (!Array.isArray(values) || values.some(v => typeof v !== 'number' || !Number.isFinite(v))) {
+      throw new TypeError(name + ' must be an array of finite numbers.');
+    }
+  }
+
+  function rank(values) {
+    validate(values, 'values');
+    const order = values.map((value, index) => ({ value, index })).sort((a, b) => a.value - b.value || a.index - b.index);
+    const result = new Array(values.length);
+    for (let i = 0; i < order.length;) {
+      let j = i + 1;
+      while (j < order.length && order[j].value === order[i].value) j++;
+      const average = (i + 1 + j) / 2;
+      for (let k = i; k < j; k++) result[order[k].index] = average;
+      i = j;
+    }
+    return result;
+  }
+
+  function tieSizes(values) {
+    const sorted = values.slice().sort((a, b) => a - b);
+    const sizes = [];
+    for (let i = 0; i < sorted.length;) {
+      let j = i + 1;
+      while (j < sorted.length && sorted[j] === sorted[i]) j++;
+      if (j - i > 1) sizes.push(j - i);
+      i = j;
+    }
+    return sizes;
+  }
+
+  function remember(cache, key, value) {
+    if (cache.size >= CACHE_LIMIT) cache.delete(cache.keys().next().value);
+    cache.set(key, value);
+    return value;
+  }
+
+  function distributionFromCounts(counts, total) {
+    return Array.from(counts, ([x2, count]) => ({ x: x2 / 2, count, prob: count / total }))
+      .sort((a, b) => a.x - b.x);
+  }
+
+  function signDistribution(ranks) {
+    const weights = ranks.map(r => Math.round(2 * r)).sort((a, b) => a - b);
+    const key = weights.join(',');
+    if (signCache.has(key)) return signCache.get(key);
+    let counts = new Map([[0, 1]]);
+    for (const weight of weights) {
+      const next = new Map();
+      for (const [sum, count] of counts) {
+        next.set(sum, (next.get(sum) || 0) + count);
+        next.set(sum + weight, (next.get(sum + weight) || 0) + count);
+      }
+      counts = next;
+    }
+    const total = 2 ** weights.length;
+    return remember(signCache, key, { distribution: distributionFromCounts(counts, total), total });
+  }
+
+  function groupDistribution(ranks, nA) {
+    const weights = ranks.map(r => Math.round(2 * r)).sort((a, b) => a - b);
+    const key = nA + ':' + weights.join(',');
+    if (groupCache.has(key)) return groupCache.get(key);
+    // Every observation is distinct, even if its value/rank is tied. The
+    // dynamic program counts all label assignments with their multiplicities.
+    const counts = Array.from({ length: nA + 1 }, () => new Map());
+    counts[0].set(0, 1);
+    let processed = 0;
+    for (const weight of weights) {
+      for (let k = Math.min(nA, processed + 1); k >= 1; k--) {
+        for (const [sum, count] of counts[k - 1]) {
+          counts[k].set(sum + weight, (counts[k].get(sum + weight) || 0) + count);
+        }
+      }
+      processed++;
+    }
+    const total = Array.from(counts[nA].values()).reduce((a, b) => a + b, 0);
+    return remember(groupCache, key, { distribution: distributionFromCounts(counts[nA], total), total });
+  }
+
+  function tail(distribution, observed, mean, total) {
+    const distance = Math.abs(observed - mean);
+    const extremeCount = distribution.reduce((s, item) => s + (Math.abs(item.x - mean) + EPS >= distance ? item.count : 0), 0);
+    return { extremeCount, p: Math.min(1, extremeCount / total), distance };
+  }
+
+  function signed(a, b) {
+    validate(a, 'a');
+    validate(b, 'b');
+    if (a.length !== b.length) throw new RangeError('Paired samples must have the same length.');
+    if (a.length > MAX_PAIRS) throw new RangeError('This classroom engine supports up to ' + MAX_PAIRS + ' pairs.');
+    const rows = a.map((value, index) => {
+      const d = Math.round((value - b[index]) * 1e9) / 1e9;
+      return { index, a: value, b: b[index], d: Object.is(d, -0) ? 0 : d, abs: Math.abs(d), sign: Math.sign(d), rank: null, positive: 0, negative: 0 };
+    });
+    const nonzero = rows.filter(row => row.d !== 0);
+    const ranks = rank(nonzero.map(row => row.abs));
+    nonzero.forEach((row, index) => {
+      row.rank = ranks[index];
+      row.positive = row.sign > 0 ? row.rank : 0;
+      row.negative = row.sign < 0 ? row.rank : 0;
+    });
+    const n = nonzero.length;
+    const zeros = rows.length - n;
+    const wPlus = rows.reduce((sum, row) => sum + row.positive, 0);
+    const wMinus = rows.reduce((sum, row) => sum + row.negative, 0);
+    const totalRank = wPlus + wMinus;
+    const mean = totalRank / 2;
+    const variance = ranks.reduce((sum, r) => sum + r * r, 0) / 4;
+    const positiveCount = nonzero.filter(row => row.sign > 0).length;
+    const negativeCount = n - positiveCount;
+    const nullDist = signDistribution(ranks);
+    const observedTail = n ? tail(nullDist.distribution, wPlus, mean, nullDist.total) : { extremeCount: null, p: null, distance: 0 };
+    const binomial = signDistribution(new Array(n).fill(1));
+    const signP = n ? tail(binomial.distribution, positiveCount, n / 2, binomial.total).p : null;
+    return {
+      valid: n > 0, rows, n, zeros, wPlus, wMinus, t: Math.min(wPlus, wMinus),
+      totalRank, mean, var: variance, distribution: nullDist.distribution,
+      totalPermutations: nullDist.total, extremeCount: observedTail.extremeCount, p: observedTail.p,
+      distance: observedTail.distance, signP, positiveCount, negativeCount,
+      tieSizes: tieSizes(nonzero.map(row => row.abs)),
+      method: 'Exact conditional sign-flip test; two-sided absolute distance from E(W+).'
+    };
+  }
+
+  function independent(a, b) {
+    validate(a, 'a');
+    validate(b, 'b');
+    if (a.length > MAX_GROUP || b.length > MAX_GROUP) throw new RangeError('This classroom engine supports up to ' + MAX_GROUP + ' observations per group.');
+    const nA = a.length, nB = b.length, N = nA + nB;
+    const values = a.concat(b);
+    const ranks = rank(values);
+    const rows = a.map((value, index) => ({ group: 'A', index, value, rank: ranks[index] }))
+      .concat(b.map((value, index) => ({ group: 'B', index, value, rank: ranks[nA + index] })));
+    const rA = ranks.slice(0, nA).reduce((sum, r) => sum + r, 0);
+    const rB = ranks.slice(nA).reduce((sum, r) => sum + r, 0);
+    const uA = rA - nA * (nA + 1) / 2;
+    const uB = rB - nB * (nB + 1) / 2;
+    const mean = nA * (N + 1) / 2;
+    const ties = tieSizes(values);
+    const tieTerm = ties.reduce((sum, size) => sum + size ** 3 - size, 0);
+    const variance = N > 1 ? nA * nB / 12 * ((N + 1) - tieTerm / (N * (N - 1))) : 0;
+    if (!nA || !nB) {
+      return { valid: false, rows, nA, nB, N, rA, rB, uA, uB, mean, var: variance,
+        distribution: [], totalPermutations: 0, extremeCount: null, p: null, distance: null, tieSizes: ties };
+    }
+    const nullDist = groupDistribution(ranks, nA);
+    const observedTail = tail(nullDist.distribution, rA, mean, nullDist.total);
+    return {
+      valid: true, rows, nA, nB, N, rA, rB, uA, uB, mean, var: variance,
+      distribution: nullDist.distribution, totalPermutations: nullDist.total,
+      extremeCount: observedTail.extremeCount, p: observedTail.p, distance: observedTail.distance,
+      tieSizes: ties,
+      method: 'Exact fixed-size label-permutation test; two-sided absolute distance from E(R_A).'
+    };
+  }
+
+  const api = Object.freeze({ rank, signed, independent, MAX_PAIRS, MAX_GROUP });
+  root.WilcoxonMath = api;
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+
+</script>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id), M=WilcoxonMath;
+const fmt=n=>n==null?'—':Number.isInteger(n)?String(n):Number(n.toFixed(3)).toString();
+const pf=n=>n==null?'—':n===1?'1.0000':n<0.0001?n.toExponential(2):n.toFixed(4);
+const sum=x=>x.reduce((a,b)=>a+b,0), average=x=>sum(x)/x.length;
+const clone=x=>JSON.parse(JSON.stringify(x));
+const presets={
+signed:[
+ {id:'lecture',name:'Lecture example · 6 pairs',a:[2,5,10,34,1,8],b:[0,45,32,3,2,8],tip:'Drag A1 to the right. Does its difference change before its rank changes?'},
+ {id:'smallpositive',name:'6 positive / 2 negative · small positive ranks',a:[21,22,23,24,25,26,13,12],b:[20,20,20,20,20,20,20,20],tip:'Six positive differences, but the two largest changes are negative. Compare with the next example.'},
+ {id:'largepositive',name:'6 positive / 2 negative · large positive ranks',a:[23,24,25,26,27,28,19,18],b:[20,20,20,20,20,20,20,20],tip:'The signs have the same counts as the previous example. Why is the signed-rank p value different?'},
+ {id:'ties',name:'Tied absolute differences & zero differences',a:[22,22,18,18,25,15,20,20],b:[20,20,20,20,20,20,20,20],tip:'The differences +2 and −2 share the same absolute value. Watch how average ranks handle the tie.'},
+ {id:'allzero',name:'All paired differences are zero',a:[10,20,30,40,50,60],b:[10,20,30,40,50,60],tip:'There are no nonzero differences to rank. Move any point to create signed-rank information.'}
+],
+ranksum:[
+ {id:'lecture',name:'Lecture example · 6 in A, 5 in B',a:[2,5,10,34,1,8],b:[0,45,32,3,2],tip:'Move A1 past a B value. Watch the pooled ranks and the rank sum for A.'},
+ {id:'overlap',name:'Interleaved groups',a:[1,3,5,7],b:[2,4,6,8],tip:'A and B are interleaved. Can you move the A values to one end of the rank order?'},
+ {id:'separate',name:'Clearly separated groups',a:[1,2,3,4],b:[5,6,7,8],tip:'All A values are below all B values. Stretch the largest value: does the evidence change?'},
+ {id:'ties',name:'Ties across groups',a:[2,4,4,6],b:[4,4,6,8],tip:'A and B share values. Tied observations receive the average of their occupied ranks.'},
+ {id:'equal',name:'All observations have the same value',a:[5,5,5,5],b:[5,5,5,5],tip:'Every observation has the same average rank. The data cannot separate the groups.'}
+]};
+let mode='signed';
+const states={signed:{...clone(presets.signed[0]),selected:'A:0',history:[]},ranksum:{...clone(presets.ranksum[0]),selected:'A:0',history:[]}};
+let result=null,oldResult=null,drag=null,sliderDragging=false,rawDomain=null,sliderDomain=null,nullDraw=null,feedbackTimer=null;
+let changedRanks=new Set(),baselineForGesture=null,gestureBaseline=null,inputBaseline=null;
+function state(){return states[mode]}
+function selected(){const [group,index]=state().selected.split(':');return {group,index:+index}}
+function dataFor(group){return group==='A'?state().a:state().b}
+function calc(){return mode==='signed'?M.signed(state().a,state().b):M.independent(state().a,state().b)}
+function rowKey(r){return mode==='signed'?'P'+r.index:r.group+r.index}
+function numericLimit(n){return Number.isFinite(n)&&n>=-1000&&n<=1000}
+function snapshot(){return {a:state().a.slice(),b:state().b.slice(),selected:state().selected,id:state().id}}
+function pushHistory(snap){state().history.push(snap||snapshot());if(state().history.length>40)state().history.shift();$('undo').disabled=false}
+function getDomain(){const vals=state().a.concat(state().b);let lo=Math.min(...vals),hi=Math.max(...vals),gap=Math.max(hi-lo,10);return [Math.floor(lo-gap*.12),Math.ceil(hi+gap*.12)]}
+function setFeedback(text,changed=false,label='Notice'){$('feedback').classList.toggle('changed',changed);$('feedback').querySelector('b').textContent=label;$('feedback-text').textContent=text;}
+function ranksMap(r){return new Map(r.rows.map(x=>[rowKey(x),x.rank]))}
+function summarizeChange(old,action){
+ const map=ranksMap(old);changedRanks=new Set(result.rows.filter(x=>map.has(rowKey(x))&&map.get(rowKey(x))!==x.rank).map(rowKey));
+ const prev=mode==='signed'?old.wPlus:old.rA,now=mode==='signed'?result.wPlus:result.rA;
+ const changedStat=prev!==now,changedP=old.p!==result.p;
+ let tail;
+ if(!result.valid)tail='All differences are zero. No nonzero ranks remain.';
+ else if(changedP)tail=`${changedRanks.size?'Ranks changed. ':''}${mode==='signed'?'W+':'R_A'}: ${fmt(prev)} → ${fmt(now)}; p: ${pf(old.p)} → ${pf(result.p)}.`;
+ else if(changedStat)tail=`${changedRanks.size?'Some ranks changed. ':''}${mode==='signed'?'W+':'R_A'} changed from ${fmt(prev)} to ${fmt(now)}, but the two-sided p value stayed the same.${old.distance===result.distance?' Opposite directions can be equally extreme.':''}`;
+ else if(changedRanks.size)tail=`Individual ranks changed, but ${mode==='signed'?'W+':'R_A'} and p stayed the same${mode==='ranksum'?' because the group rank total did not change':''}.`;
+ else tail=`Ranks, ${mode==='signed'?'W+':'R_A'}, and p stayed the same. The test uses rank order${mode==='signed'?' and signs':''}, not the raw distances between values.`;
+ setFeedback(action+' '+tail,changedP||changedRanks.size>0);
+}
+function applyChange(action,mutate,record=true){const previous=calc();if(record)pushHistory();mutate();nullDraw=null;oldResult=previous;result=calc();summarizeChange(gestureBaseline||inputBaseline||previous,action);updateEditorValues();renderAll(false);}
+function updateValue(group,index,value,action,record=true){if(!numericLimit(value))return;if(dataFor(group)[index]===value)return;applyChange(action,()=>{dataFor(group)[index]=Math.round(value*10)/10;state().selected=group+':'+index},record)}
+function selectPoint(key){state().selected=key;updateSelected();renderRaw();renderRanks();}
+function buildEditor(){
+ const s=state();
+ if(mode==='signed'){
+  $('editor').innerHTML='<div class="table-wrap"><table aria-label="Paired values and signed ranks"><thead><tr><th>Pair</th><th>A</th><th>B</th><th>d = A − B</th><th>|d|</th><th>Rank</th><th>Signed<br>rank</th></tr></thead><tbody>'+s.a.map((v,i)=>`<tr data-row="${i}"><td class="row-id" data-select="A:${i}">P${i+1}</td><td><input class="value-input group-a" type="number" step="0.1" min="-1000" max="1000" data-group="A" data-index="${i}" aria-label="Pair ${i+1}, value A" value="${v}"></td><td><input class="value-input group-b" type="number" step="0.1" min="-1000" max="1000" data-group="B" data-index="${i}" aria-label="Pair ${i+1}, value B" value="${s.b[i]}"></td><td data-cell="d"></td><td data-cell="abs"></td><td data-cell="rank" class="rank-cell"></td><td data-cell="signed"></td></tr>`).join('')+'</tbody></table></div><div class="size-tools"><span class="micro">One row = one matched pair</span><button class="button small" data-size="add-pair"'+(s.a.length>=10?' disabled':'')+'>+ Pair</button><button class="button small" data-size="remove-pair"'+(s.a.length<=2?' disabled':'')+'>− Last pair</button></div>';
+ }else{
+  $('editor').innerHTML='<div class="groups">'+['A','B'].map(g=>{const vals=dataFor(g);return `<div><div class="group-label ${g==='B'?'b':''}">Group ${g} <span class="micro">n = ${vals.length}</span></div><table aria-label="Group ${g} values and pooled ranks"><thead><tr><th>ID</th><th>Value</th><th>Rank</th></tr></thead><tbody>`+vals.map((v,i)=>`<tr data-row="${g}:${i}"><td class="row-id" data-select="${g}:${i}">${g}${i+1}</td><td><input class="value-input group-${g.toLowerCase()}" type="number" step="0.1" min="-1000" max="1000" data-group="${g}" data-index="${i}" aria-label="Group ${g}, observation ${i+1}" value="${v}"></td><td class="rank-cell" data-cell="rank"></td></tr>`).join('')+`</tbody></table><div class="size-tools"><button class="button small" data-size="add-${g}"${vals.length>=8?' disabled':''}>+ Value</button><button class="button small" data-size="remove-${g}"${vals.length<=2?' disabled':''}>− Last</button></div></div>`}).join('')+'</div>';
+ }
+ $('selected-point').innerHTML=['A','B'].map(g=>dataFor(g).map((v,i)=>`<option value="${g}:${i}">${g}${i+1}${mode==='signed'?' · pair '+(i+1):' · group '+g}</option>`).join('')).join('');
+ $('rank-selected').innerHTML=$('selected-point').innerHTML;
+ updateEditorValues();
+}
+function updateEditorValues(){
+ $('editor').querySelectorAll('input[data-group]').forEach(el=>{if(document.activeElement!==el)el.value=fmt(dataFor(el.dataset.group)[+el.dataset.index]);});
+ if(mode==='signed')result.rows.forEach(r=>{const tr=$('editor').querySelector(`[data-row="${r.index}"]`);if(!tr)return;tr.querySelector('[data-cell=d]').textContent=(r.d>0?'+':'')+fmt(r.d);tr.querySelector('[data-cell=d]').className=r.sign>0?'positive':r.sign<0?'negative':'zero';tr.querySelector('[data-cell=abs]').textContent=fmt(r.abs);tr.querySelector('[data-cell=rank]').textContent=r.rank==null?'—':fmt(r.rank);tr.querySelector('[data-cell=signed]').innerHTML=r.rank==null?'<span class="zero">omit</span>':`<span class="signed-badge ${r.sign<0?'negative':'positive'}">${r.sign>0?'+':'−'}${fmt(r.rank)}</span>`;});
+ else result.rows.forEach(r=>{const cell=$('editor').querySelector(`[data-row="${r.group}:${r.index}"] [data-cell=rank]`);if(cell)cell.textContent=fmt(r.rank)});
+ updateSelected();
+}
+function updateSelected(){
+ const s=state(),sel=selected();$('selected-point').value=s.selected;$('rank-selected').value=s.selected;
+ $('editor').querySelectorAll('[data-row]').forEach(row=>row.classList.toggle('selected-row',mode==='signed'?+row.dataset.row===sel.index:row.dataset.row===s.selected));
+ const v=dataFor(sel.group)[sel.index];$('selected-output').textContent=`${sel.group}${sel.index+1} = ${fmt(v)}`;
+ if(!sliderDragging){sliderDomain=getDomain();$('value-slider').min=Math.max(-1000,sliderDomain[0]);$('value-slider').max=Math.min(1000,sliderDomain[1]);}
+ $('rank-slider').min=$('value-slider').min;$('rank-slider').max=$('value-slider').max;$('rank-slider').value=v;$('rank-value').textContent=`${sel.group}${sel.index+1} = ${fmt(v)}`;
+ $('value-slider').value=v;$('value-slider').setAttribute('aria-label',`Adjust ${sel.group}${sel.index+1}`);$('flip').disabled=mode==='signed'&&!result.rows[sel.index]?.sign;
+}
+function pointSvg(x,y,g,i,v){const active=state().selected===g+':'+i,fill=g==='A'?'#087e80':'#7457a7';return `<g class="handle" data-point="${g}:${i}" tabindex="0" role="slider" aria-label="${g}${i+1}, ${fmt(v)}. Use left and right arrows to change the value." aria-valuemin="-1000" aria-valuemax="1000" aria-valuenow="${v}"><title>${g}${i+1}: ${fmt(v)}. Drag horizontally.</title><circle cx="${x}" cy="${y}" r="18" fill="transparent"/><circle class="focus-ring" cx="${x}" cy="${y}" r="12" fill="none" stroke="${active?'#c18e33':'transparent'}" stroke-width="2"/>${g==='A'?`<circle cx="${x}" cy="${y}" r="6" fill="${fill}" stroke="#fffefa" stroke-width="1.6"/>`:`<rect x="${x-5.5}" y="${y-5.5}" width="11" height="11" rx="1.2" fill="${fill}" stroke="#fffefa" stroke-width="1.5"/>`}</g>`;}
+function axisTicks(lo,hi,count=5){const span=hi-lo,raw=span/count,pow=Math.pow(10,Math.floor(Math.log10(raw))),base=raw/pow,step=(base<=1?1:base<=2?2:base<=5?5:10)*pow,arr=[];for(let v=Math.ceil(lo/step)*step;v<=hi+step*1e-6;v+=step)arr.push(Math.abs(v)<step/1000?0:v);return arr}
+function renderRaw(){
+ const svg=$('raw-plot'),w=Math.max(280,svg.clientWidth),s=state(),signed=mode==='signed';const rowH=signed?37:24,top=20,N=signed?s.a.length:s.a.length+s.b.length,h=top+N*rowH+48,marginL=39,marginR=23;
+ const domain=drag?drag.domain:getDomain();rawDomain=domain;const x=v=>marginL+(v-domain[0])/(domain[1]-domain[0])*(w-marginL-marginR),bottom=top+N*rowH;
+ let html='';const ticks=axisTicks(...domain,w<400?4:6);
+ ticks.forEach(t=>{const px=x(t);html+=`<line x1="${px}" y1="8" x2="${px}" y2="${bottom}" stroke="#e7e7de" stroke-width="1"/><text x="${px}" y="${bottom+19}" text-anchor="middle">${fmt(t)}</text>`});
+ if(signed){s.a.forEach((a,i)=>{const y=top+i*rowH+10,b=s.b[i];if(selected().index===i)html+=`<rect x="1" y="${y-15}" width="${w-2}" height="30" rx="5" fill="#f2f0e4"/>`;html+=`<text x="1" y="${y+4}" class="point-label">P${i+1}</text><line x1="${x(a)}" y1="${y}" x2="${x(b)}" y2="${y}" stroke="#c8cdc5" stroke-width="2"/>`;html+=pointSvg(x(b),y,'B',i,b)+pointSvg(x(a),y,'A',i,a);if(a===b)html+=`<text x="${Math.min(x(a)+16,w-75)}" y="${y+4}" font-size="10">A = B</text>`;});}
+ else{let idx=0;['A','B'].forEach(g=>{dataFor(g).forEach((v,i)=>{const y=top+idx*rowH+6;html+=`<line x1="${marginL}" y1="${y}" x2="${w-marginR}" y2="${y}" stroke="#f0eee5"/><text x="1" y="${y+4}" class="point-label">${g}${i+1}</text>`+pointSvg(x(v),y,g,i,v);idx++;});if(g==='A'){const y=top+idx*rowH-7;html+=`<line x1="0" y1="${y}" x2="${w}" y2="${y}" stroke="#d4d5ca" stroke-dasharray="3 4"/>`;}});}
+ html+=`<line x1="${marginL}" y1="${bottom}" x2="${w-marginR}" y2="${bottom}" stroke="#b9c1b7"/><text x="${(marginL+w-marginR)/2}" y="${bottom+41}" text-anchor="middle">Observed value (illustrative units)</text>`;
+ svg.setAttribute('viewBox',`0 0 ${w} ${h}`);svg.style.height=h+'px';svg.innerHTML=html;
+}
+function renderRanks(){
+ const strip=$('rank-strip'),w=strip.clientWidth,cols=Math.max(2,Math.floor((w+9)/94)),tileWidth=Math.min(100,(w-(cols-1)*9)/cols),gap=9;
+ const rows=result.rows.filter(r=>mode==='ranksum'||r.rank!==null).slice().sort((a,b)=>a.rank-b.rank||(a.index-b.index));
+ const ids=new Set(rows.map(rowKey));Array.from(strip.children).forEach(c=>{if(!ids.has(c.dataset.key))c.remove()});
+ rows.forEach((r,i)=>{const key=rowKey(r);let tile=strip.querySelector(`[data-key="${key}"]`);if(!tile){tile=document.createElement('button');tile.type='button';tile.dataset.key=key;strip.appendChild(tile)}const sel=selected(),active=mode==='signed'?sel.index===r.index:sel.group===r.group&&sel.index===r.index;
+  tile.className='rank-tile'+(mode==='signed'&&r.sign<0?' negative':'')+(mode==='ranksum'&&r.group==='B'?' group-b':'')+(active?' selected':'')+(changedRanks.has(key)?' changed':'');tile.style.width=tileWidth+'px';tile.style.transform=`translate(${(i%cols)*(tileWidth+gap)}px,${Math.floor(i/cols)*111}px)`;tile.dataset.select=(mode==='signed'?'A':r.group)+':'+r.index;
+  const ident=mode==='signed'?'P'+(r.index+1):r.group+(r.index+1),val=mode==='signed'?`|d| = ${fmt(r.abs)}`:`value ${fmt(r.value)}`,sign=mode==='signed'?(r.sign>0?'+':'−'):'';
+  tile.innerHTML=`<div class="identity">${ident}${mode==='signed'?' · '+(r.sign>0?'positive':'negative'):''}</div><div class="raw-value">${val}</div><div class="rank-number"><small>${mode==='signed'?'signed rank':'rank'}</small>${sign}${fmt(r.rank)}</div>`;tile.setAttribute('aria-label',`${ident}, ${val}, ${mode==='signed'?'signed ':''}rank ${sign}${fmt(r.rank)}`);
+ });strip.style.height=(rows.length?Math.ceil(rows.length/cols)*111-3:0)+'px';
+ $('zero-chips').innerHTML=mode==='signed'?result.rows.filter(r=>!r.sign).map(r=>`<span class="zero-chip">P${r.index+1}: d = 0 → excluded</span>`).join(''):'';
+ if(result.tieSizes.length){const ties=new Map();rows.forEach(r=>{const value=mode==='signed'?r.abs:r.value;if(!ties.has(value))ties.set(value,[]);ties.get(value).push(r)});$('tie-note').innerHTML=Array.from(ties).filter(([v,rs])=>rs.length>1).map(([v,rs])=>{const rank=rs[0].rank,start=rank-(rs.length-1)/2,end=rank+(rs.length-1)/2;return `${mode==='signed'?'|d|':'Value'} ${fmt(v)} occupies positions ${fmt(start)}–${fmt(end)} → each receives rank ${fmt(rank)}.`}).join(' ');}
+ else $('tie-note').textContent=result.valid?'No ties: each ordered observation has its own rank.':'A zero difference has no direction, so it contributes no signed rank.';
+ const sums=mode==='signed'?[[`W⁺`,result.rows.filter(r=>r.sign>0).map(r=>r.rank),result.wPlus,'positive'],[`W⁻`,result.rows.filter(r=>r.sign<0).map(r=>r.rank),result.wMinus,'negative']]:[[`R_A`,result.rows.filter(r=>r.group==='A').map(r=>r.rank),result.rA,'positive'],[`R_B`,result.rows.filter(r=>r.group==='B').map(r=>r.rank),result.rB,'group-b']];
+ $('sum-equations').innerHTML=sums.map(([label,vals,total,cls])=>`<div class="sum-equation ${cls}"><strong>${label}</strong> = ${vals.length?vals.map(fmt).join(' + '):'0'} <strong>= ${fmt(total)}</strong></div>`).join('');
+ $('rank-total-note').textContent=mode==='signed'?`W+ + W− = ${fmt(result.totalRank)} · effective n = ${result.n} (nonzero differences)`:`R_A + R_B = ${fmt(result.rA+result.rB)} · ${result.N} observations ranked together`;
+}
+function renderStats(){
+ const r=result,alpha=+$('alpha').value;$('live-summary').innerHTML='<span class="live-label">LIVE RESULT</span>'+(mode==='signed'?`W⁺ ${fmt(r.wPlus)} &nbsp; · &nbsp; W⁻ ${fmt(r.wMinus)} &nbsp; · &nbsp; T ${fmt(r.t)}`:`R_A ${fmt(r.rA)} &nbsp; · &nbsp; U_A ${fmt(r.uA)}`)+` &nbsp; · &nbsp; <strong>p = ${pf(r.p)}</strong>`;$('p-value').textContent=pf(r.p);$('p-fraction').textContent=r.valid?`${r.extremeCount.toLocaleString()} / ${r.totalPermutations.toLocaleString()} equally likely assignments`: 'No nonzero paired differences to test.';
+ $('decision').classList.toggle('reject',r.valid&&r.p<=alpha);$('decision').textContent=!r.valid?'No signed-rank information':r.p<=alpha?`Reject H₀ at α = ${alpha.toFixed(2)}`:`Do not reject H₀ at α = ${alpha.toFixed(2)}`;
+ const items=mode==='signed'?[['W⁺',r.wPlus],['W⁻',r.wMinus],['T = min(W⁺, W⁻)',r.t],['Effective n',r.n]]:[['R_A',r.rA],['R_B',r.rB],['U_A',r.uA],['n_A / n_B',`${r.nA} / ${r.nB}`]];
+ $('stats-mini').innerHTML=items.map(([label,val])=>`<div><div class="stat-mini-label">${label}</div><div class="stat-mini-value">${typeof val==='number'?fmt(val):val}</div></div>`).join('');
+ $('stats-note').textContent=mode==='signed'?`T is the smaller rank sum, as in the lecture. The plot uses W+ so both tails are visible.`:`R_A always refers to group A. U_A = R_A − n_A(n_A + 1)/2. Group sizes stay fixed under H₀.`;
+ if(!r.valid){$('dist-note').textContent='All paired differences are zero. Change a value to create a nonzero difference and a signed-rank distribution.';$('draw-null').disabled=true;return;}
+ $('draw-null').disabled=false;const name=mode==='signed'?'W⁺':'R_A';$('dist-note').innerHTML=`Under H₀, the center is <strong>${name} = ${fmt(r.mean)}</strong>. The observed value is <strong>${fmt(mode==='signed'?r.wPlus:r.rA)}</strong>, a distance of <strong>${fmt(r.distance)}</strong> from that center. <strong>p</strong> is the total probability of the maroon bars, including the observed result.`;
+}
+function renderDistribution(){
+ const svg=$('null-plot'),w=Math.max(280,svg.clientWidth),h=270,l=47,rr=18,t=43,b=50,iw=w-l-rr,ih=h-t-b;
+ svg.setAttribute('viewBox',`0 0 ${w} ${h}`);svg.style.height=h+'px';
+ if(!result.valid){svg.innerHTML=`<rect x="${l}" y="${t}" width="${iw}" height="${ih}" fill="#f3f1e9" rx="7"/><text x="${l+iw/2}" y="${t+ih/2}" text-anchor="middle">No nonzero differences to rank</text>`;return;}
+ const dist=result.distribution,min=dist[0].x,max=dist.at(-1).x,range=max-min,step=dist.length>1?Math.min(...dist.slice(1).map((d,i)=>d.x-dist[i].x)):1,pad=Math.max(step*.9,range*.035,0.5),xmin=min-pad,xmax=max+pad;
+ const x=v=>l+(v-xmin)/(xmax-xmin)*iw,maxp=Math.max(...dist.map(d=>d.prob)),ymax=maxp*1.15,y=v=>t+ih-v/ymax*ih;
+ let html='';for(let k=0;k<=3;k++){const pv=maxp*k/3,py=y(pv);html+=`<line x1="${l}" y1="${py}" x2="${w-rr}" y2="${py}" stroke="#e9e8df"/><text x="${l-7}" y="${py+4}" text-anchor="end">${(pv*100).toFixed(maxp<.1?1:0)}%</text>`;}
+ html+=`<text x="${l}" y="14">Probability under H₀</text>`;
+ const width=Math.max(1,Math.min(24,(x(step)-x(0))*.8));
+ dist.forEach(d=>{const extreme=Math.abs(d.x-result.mean)+1e-9>=result.distance,px=x(d.x),py=y(d.prob),drawn=nullDraw&&d.x===nullDraw.value;html+=`<rect x="${px-width/2}" y="${py}" width="${width}" height="${y(0)-py}" rx="${Math.min(2,width/4)}" fill="${extreme?'#650d17':'#c9d5d1'}"><title>${mode==='signed'?'W+':'R_A'}=${fmt(d.x)}; ${d.count}/${result.totalPermutations} (${(100*d.prob).toFixed(2)}%)${extreme?'; included in p value':''}</title></rect>`;if(drawn)html+=`<circle cx="${px}" cy="${Math.max(t+3,py-8)}" r="4" fill="#c18e33"/>`;});
+ const observed=mode==='signed'?result.wPlus:result.rA,ox=x(observed),mx=x(result.mean);
+ html+=`<line x1="${mx}" y1="${t-4}" x2="${mx}" y2="${y(0)}" stroke="#768780" stroke-width="1.3" stroke-dasharray="4 4"/><line x1="${ox}" y1="${t-10}" x2="${ox}" y2="${y(0)}" stroke="#500000" stroke-width="1.7" stroke-dasharray="2 3"/>`;
+ const labelX=Math.min(Math.max(ox,l+55),w-rr-55);html+=`<text class="svg-observed-label" x="${labelX}" y="31" text-anchor="middle">Observed ${fmt(observed)}</text>`;
+ const tickVals=range===0?[min]:axisTicks(min,max,w<450?4:7);tickVals.forEach(v=>{html+=`<text x="${x(v)}" y="${y(0)+18}" text-anchor="middle">${fmt(v)}</text>`});
+ html+=`<line x1="${l}" y1="${y(0)}" x2="${w-rr}" y2="${y(0)}" stroke="#b5bfb6"/><text x="${l+iw/2}" y="${h-8}" text-anchor="middle">${mode==='signed'?'W⁺ · sum of positive ranks':'R_A · sum of ranks in group A'}</text>`;
+ svg.innerHTML=html;svg.setAttribute('aria-label',`Exact null distribution of ${mode==='signed'?'W plus':'rank sum A'}. Observed ${fmt(observed)}, null mean ${fmt(result.mean)}, exact two-sided p value ${pf(result.p)}. Maroon bars have outcomes at least as far from the null mean as the observed statistic.`);
+}
+function renderLearning(){
+ const s=state(),r=result;
+ if(mode==='signed'){
+  $('why-title').textContent='Why use both sign and rank?';
+  $('why-content').innerHTML=`<div class="comparison-line"><span>Raw mean difference</span><span class="number">${fmt(average(r.rows.map(x=>x.d)))}</span></div><div class="comparison-line"><span>Signs only: + / −</span><span class="number">${r.positiveCount} / ${r.negativeCount}</span></div><div class="comparison-line"><span>Exact sign-test p</span><span class="number">${pf(r.signP)}</span></div><div class="comparison-line"><span>Signed-rank p</span><span class="number">${pf(r.p)}</span></div><p class="prompt"><strong>The sign keeps direction.</strong> The rank adds the relative size of a change. A difference of 100 can receive the same largest rank as a difference of 40.</p>`;
+  $('challenge').innerHTML='Choose the two <strong>“6 positive / 2 negative”</strong> examples. The sign counts are identical. Predict what happens when the largest ranks move from negative to positive differences.';
+  $('key-idea').innerHTML='<strong>Then stretch the largest change.</strong> If its sign and rank stay the same, the signed-rank result stays the same, even though the raw mean difference changes.';
+ }else{
+  $('why-title').textContent='Why rank all observations together?';
+  $('why-content').innerHTML=`<div class="comparison-line"><span>Raw mean, A / B</span><span class="number">${fmt(average(s.a))} / ${fmt(average(s.b))}</span></div><div class="comparison-line"><span>Mean rank, A / B</span><span class="number">${fmt(r.rA/r.nA)} / ${fmt(r.rB/r.nB)}</span></div><div class="comparison-line"><span>U_A / (n_A × n_B)</span><span class="number">${fmt(r.uA/(r.nA*r.nB))}</span></div><p class="prompt">Pooling gives both groups <strong>one common ordering</strong>. U_A counts A &gt; B comparisons, with half credit for ties. Ranking each group separately would discard the comparison between groups.</p>`;
+  $('challenge').innerHTML='Start with <strong>“Clearly separated groups.”</strong> Stretch the largest value, then move an A value across a B value. Predict which move changes the pooled ranks and the p value.';
+  $('key-idea').innerHTML='<strong>Watch for a subtle distinction.</strong> Swapping the order of two values within the same group can change their individual ranks without changing the group rank sum. An exact tie can temporarily change the null distribution.';
+ }
+}
+function renderNotes(){
+ const r=result;
+ const common=`<h3>Exact p values in this lab</h3><p>All assignments are counted, including ties, with their correct multiplicities. No normal approximation or continuity correction is used.</p><div class="formula">p = P₀(|S − E₀(S)| ≥ |S<sub>observed</sub> − E₀(S)|)</div><p>S is W⁺ for signed ranks and R<sub>A</sub> for rank sums. “Two-sided” means a departure in either direction. For tied data with unequal group sizes, this absolute-distance definition can differ from software that doubles the smaller one-sided tail.</p><p>A p value is calculated assuming H₀ and the test assumptions. It is not the probability that H₀ is true. Changing α changes the decision threshold, not the p value.</p><p>Values are editable from −1,000 to 1,000 in steps of 0.1. The lab permits 2–10 pairs or 2–8 observations per independent group. Differences are rounded to prevent roundoff from breaking genuine ties.</p><div class="references">Method references: <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/wilcox.test.html" target="_blank" rel="noopener">R: Wilcoxon tests</a> · <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html" target="_blank" rel="noopener">SciPy: signed-rank</a> · <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html" target="_blank" rel="noopener">SciPy: rank-sum / U</a>. Examples use lecture values or synthetic teaching data.</div>`;
+ if(mode==='signed')$('method-notes').innerHTML=`<div><h3>Paired signed-rank test</h3><p>Use genuinely paired measurements (or one sample of differences from a reference). Different pairs must be independent. Here d = A − B. Under H₀, the distribution of differences is symmetric about zero, so each nonzero difference is equally likely to have either sign, conditional on its magnitude.</p><p>Remove d = 0 before ranking (the Wilcoxon zero convention). Rank |d| from smallest to largest; equal absolute differences receive average ranks. Then return each sign to its rank.</p><div class="formula">W⁺ = Σ<sub>dᵢ &gt; 0</sub> rᵢ &nbsp; · &nbsp; W⁻ = Σ<sub>dᵢ &lt; 0</sub> rᵢ<br>T = min(W⁺, W⁻)<br>E₀(W⁺) = n(n + 1)/4 = ${fmt(r.mean)}<br>Var₀(W⁺) = ¼ Σ rᵢ² = ${fmt(r.var)}</div><p>Without ties, Var₀(W⁺) = n(n + 1)(2n + 1)/24. These moments belong to W⁺ (or W⁻), not to the minimum T. n counts only nonzero differences. The lab counts all 2<sup>n</sup> sign assignments. Testing extreme W⁺ values in both tails is equivalent to testing small T values.</p><p>The signed-rank test uses an additional symmetry assumption for a location/median interpretation. The sign test shown for comparison uses only positive versus negative counts, excluding zeros; it does not use their sizes.</p></div><div>${common}</div>`;
+ else $('method-notes').innerHTML=`<div><h3>Independent rank-sum test</h3><p>The Wilcoxon rank-sum test is also called the <strong>Mann–Whitney U test</strong>. U<sub>A</sub> subtracts a fixed constant from R<sub>A</sub>, so both statistics order the evidence in the same way.</p><p>A and B contain independent observations; their rows are not matched. The exact permutation null is that both groups have the same distribution, making group labels exchangeable. It is not, in general, a test only of equal medians. A median-shift interpretation needs additional same-shape/location-shift assumptions.</p><p>Pool all N = n<sub>A</sub> + n<sub>B</sub> values, rank once, and average the ranks for ties. Always sum the ranks for the fixed group A. Group sizes remain fixed when labels are reassigned.</p><div class="formula">R<sub>A</sub> = Σ<sub>i in A</sub> rᵢ<br>U<sub>A</sub> = R<sub>A</sub> − n<sub>A</sub>(n<sub>A</sub> + 1)/2<br>E₀(R<sub>A</sub>) = n<sub>A</sub>(N + 1)/2 = ${fmt(r.mean)}<br>Var₀(R<sub>A</sub>) = n<sub>A</sub>n<sub>B</sub>/12 × [N + 1 − Σ(t³ − t)/(N(N − 1))]<br>Current variance = ${fmt(r.var)}</div><p>t is the number of observations in each tied-value block. With no ties, the correction vanishes. There are C(N, n<sub>A</sub>) equally likely assignments. The equivalent U statistic counts A &gt; B comparisons, with half credit when A = B.</p><p>Unequal group sizes naturally produce unequal expected rank sums. Do not choose the smaller observed rank sum and interpret it as if it were a fixed group's statistic.</p></div><div>${common}</div>`;
+}
+function renderAll(rebuild=false){
+ if(rebuild)buildEditor();updateSelected();renderRaw();renderRanks();renderStats();renderDistribution();renderLearning();renderNotes();
+ $('sample-badge').textContent=mode==='signed'?`${state().a.length} pairs · ${result.zeros} zero${result.zeros===1?'':'s'} excluded`:`N = ${result.N} · no pairing`;
+ $('draw-results').innerHTML=nullDraw?nullDraw.html:'Keep the ranks fixed. What might happen under H₀?';
+ $('undo').disabled=!state().history.length;
+}
+function initializeMode(){
+ gestureBaseline=null;inputBaseline=null;
+ document.querySelectorAll('[data-mode]').forEach(el=>{const selected=el.dataset.mode===mode;el.setAttribute('aria-selected',selected);el.tabIndex=selected?0:-1;});$('lab').setAttribute('aria-labelledby','tab-'+mode);
+ $('preset').innerHTML=presets[mode].map(p=>`<option value="${p.id}">${p.name}</option>`).join('');$('preset').value=state().id;
+ const signed=mode==='signed';
+ $('concept-text').innerHTML=signed?'<strong>Sign tells us which way. Rank tells us how large, relatively.</strong> First calculate each paired difference, then rank its absolute size.':'<strong>Pool the values. Rank once. Compare group rank totals.</strong> A group with consistently larger observations tends to collect larger ranks.';
+ $('design-pill').textContent=signed?'Same person or matched pair':'Two independent groups';
+ $('editor-title').textContent=signed?'Paired measurements · d = A − B':'Two independent samples';
+ $('data-note').textContent=signed?'Each row must represent a genuine pair, such as the same person before and after. The lecture values here are treated as illustrative pairs.':'A and B are independent samples. The two columns may have different lengths; their row positions do not create pairs.';
+ $('raw-caption').textContent=signed?'Connected points belong to one pair. Circles are A; squares are B.':'Each ID is a separate observation. Vertical positions identify observations; the horizontal scale shows their values.';
+ $('rank-subtitle').textContent=signed?'Sort the nonzero absolute differences; then attach their original signs.':'Sort the pooled values, keeping each group label attached.';
+ $('rank-legend').innerHTML=signed?'<span><i class="dot"></i> Positive</span><span><i class="dot neg"></i> Negative</span>':'<span><i class="dot"></i> Group A</span><span><i class="dot b"></i> Group B</span>';
+ $('rank-key').innerHTML=signed?'A − B <span class="arrow">→</span> remove zeros <span class="arrow">→</span> rank |d| <span class="arrow">→</span> attach + or −':'A and B <span class="arrow">→</span> pool all values <span class="arrow">→</span> rank together <span class="arrow">→</span> sum by group';
+ $('p-subtitle').textContent=signed?'Under H₀, every nonzero absolute difference is equally likely to carry a + or − sign.':'Under H₀, reassign A/B labels to the pooled observations while keeping the group sizes fixed.';
+ $('flip').classList.toggle('hidden',!signed);$('stretch').textContent=signed?'Stretch the largest change':'Stretch the largest value';
+ $('rank-strip').innerHTML='';changedRanks=new Set();nullDraw=null;result=calc();renderAll(true);setFeedback(state().tip,false,'Try it');
+}
+document.querySelectorAll('[data-mode]').forEach(el=>el.addEventListener('click',()=>{mode=el.dataset.mode;initializeMode()}));
+document.querySelector('.tabs').addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();mode=mode==='signed'?'ranksum':'signed';initializeMode();$('tab-'+mode).focus()}});
+$('preset').addEventListener('change',()=>{const p=presets[mode].find(p=>p.id===$('preset').value);pushHistory();Object.assign(state(),clone(p),{selected:'A:0'});initializeMode()});
+$('reset').addEventListener('click',()=>{const p=presets[mode].find(p=>p.id===state().id);pushHistory();Object.assign(state(),clone(p),{selected:'A:0'});initializeMode()});
+$('undo').addEventListener('click',()=>{const saved=state().history.pop();if(!saved)return;Object.assign(state(),saved);const p=presets[mode].find(p=>p.id===state().id);state().tip=p.tip;initializeMode();setFeedback('Restored the values before your last edit.',false,'Undo')});
+$('editor').addEventListener('focusin',e=>{if(e.target.matches('input[data-group]')){e.target.dataset.before=e.target.value;inputBaseline=calc();state().selected=e.target.dataset.group+':'+e.target.dataset.index;updateSelected();renderRaw();renderRanks()}});
+$('editor').addEventListener('input',e=>{const el=e.target;if(!el.matches('input[data-group]'))return;const val=el.valueAsNumber;if(!numericLimit(val)){el.setCustomValidity('Enter a number between −1000 and 1000.');return;}el.setCustomValidity('');const previous=calc();const group=el.dataset.group,index=+el.dataset.index;if(dataFor(group)[index]===val)return;if(!el.dataset.editing){pushHistory();el.dataset.editing='yes'}updateValue(group,index,val,`${group}${index+1} changed.`,false)});
+$('editor').addEventListener('focusout',e=>{const el=e.target;if(!el.matches('input[data-group]'))return;delete el.dataset.editing;inputBaseline=null;el.setCustomValidity('');el.value=fmt(dataFor(el.dataset.group)[+el.dataset.index]);});
+$('editor').addEventListener('click',e=>{const sel=e.target.closest('[data-select]');if(sel){selectPoint(sel.dataset.select);return;}const btn=e.target.closest('[data-size]');if(!btn)return;const [op,g]=btn.dataset.size.split('-');const previous=calc();pushHistory();if(g==='pair'){if(op==='add'){state().a.push(10);state().b.push(10)}else{state().a.pop();state().b.pop()}}else{if(op==='add')dataFor(g).push(10);else dataFor(g).pop()}state().selected='A:0';nullDraw=null;result=calc();changedRanks=new Set();renderAll(true);setFeedback('Sample size changed. The ranks and the exact null distribution were recalculated.',true);});
+$('selected-point').addEventListener('change',()=>selectPoint($('selected-point').value));
+$('rank-selected').addEventListener('change',()=>selectPoint($('rank-selected').value));
+$('rank-strip').addEventListener('click',e=>{const el=e.target.closest('[data-select]');if(el)selectPoint(el.dataset.select)});
+$('value-slider').addEventListener('pointerdown',()=>{sliderDragging=true;gestureBaseline=calc();baselineForGesture=snapshot();pushHistory(baselineForGesture)});
+$('value-slider').addEventListener('input',()=>{const sel=selected();if(!sliderDragging)pushHistory();updateValue(sel.group,sel.index,+$('value-slider').value,`${sel.group}${sel.index+1} moved.`,false)});
+$('rank-slider').addEventListener('pointerdown',()=>{sliderDragging=true;gestureBaseline=calc();pushHistory()});
+$('rank-slider').addEventListener('input',()=>{const sel=selected();if(!sliderDragging)pushHistory();updateValue(sel.group,sel.index,+$('rank-slider').value,`${sel.group}${sel.index+1} moved.`,false)});
+$('rank-slider').addEventListener('change',()=>finishSlider());
+function finishSlider(){if(!sliderDragging)return;sliderDragging=false;gestureBaseline=null;updateSelected()};$('value-slider').addEventListener('change',finishSlider);window.addEventListener('pointerup',finishSlider);window.addEventListener('pointercancel',finishSlider);
+$('raw-plot').addEventListener('pointerdown',e=>{const handle=e.target.closest('[data-point]');if(!handle)return;e.preventDefault();if(document.activeElement?.matches('input[data-group]'))document.activeElement.blur();gestureBaseline=calc();const [group,index]=handle.dataset.point.split(':');pushHistory();state().selected=handle.dataset.point;drag={group,index:+index,domain:rawDomain.slice(),pointerId:e.pointerId};$('raw-plot').setPointerCapture(e.pointerId);updateSelected();renderRanks();});
+$('raw-plot').addEventListener('pointermove',e=>{if(!drag)return;const svg=$('raw-plot'),rect=svg.getBoundingClientRect(),w=svg.clientWidth,px=(e.clientX-rect.left)*w/rect.width,fraction=Math.max(0,Math.min(1,(px-39)/(w-39-23))),value=Math.round((drag.domain[0]+fraction*(drag.domain[1]-drag.domain[0]))*10)/10;updateValue(drag.group,drag.index,Math.max(-1000,Math.min(1000,value)),`${drag.group}${drag.index+1} moved.`,false)});
+function finishDrag(){if(!drag)return;drag=null;gestureBaseline=null;renderRaw();updateSelected()};$('raw-plot').addEventListener('pointerup',finishDrag);$('raw-plot').addEventListener('pointercancel',finishDrag);$('raw-plot').addEventListener('lostpointercapture',finishDrag);
+$('raw-plot').addEventListener('keydown',e=>{const handle=e.target.closest('[data-point]');if(!handle||!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();const [group,idx]=handle.dataset.point.split(':'),index=+idx;updateValue(group,index,dataFor(group)[index]+(e.key==='ArrowRight'?1:-1)*(e.shiftKey?5:.1),`${group}${index+1} moved.`);$('raw-plot').querySelector(`[data-point="${group}:${index}"]`)?.focus()});
+$('flip').addEventListener('click',()=>{const i=selected().index,d=state().a[i]-state().b[i],next=state().b[i]-d;if(!numericLimit(next)){setFeedback('The reflected value would exceed the editable range (−1000 to 1000).');return;}applyChange(`Pair ${i+1}: its direction reversed.`,()=>{state().a[i]=next;state().selected='A:'+i});});
+$('stretch').addEventListener('click',()=>{
+ if(mode==='signed'){
+  const nonzero=result.rows.filter(r=>r.sign);if(!nonzero.length){setFeedback('First create a nonzero difference to stretch.');return;}const largest=Math.max(...nonzero.map(r=>r.abs)),targets=nonzero.filter(r=>r.abs===largest),newAbs=Math.max(largest*2,largest+10);const next=targets.map(r=>state().b[r.index]+r.sign*newAbs);if(next.some(v=>!numericLimit(v))){setFeedback('This stretch would exceed the editable range. Try a smaller value manually.');return;}
+  applyChange(`The largest absolute difference${targets.length>1?'s were':' was'} stretched${targets.length>1?' together to preserve the tie':''}.`,()=>{targets.forEach((r,k)=>state().a[r.index]=next[k]);state().selected='A:'+targets[0].index});
+ }else{
+  const max=Math.max(...state().a,...state().b),min=Math.min(...state().a,...state().b),v=max+Math.max(max-min,10);if(!numericLimit(v)){setFeedback('This stretch would exceed the editable range. Try a smaller value manually.');return;}
+  applyChange('The largest pooled value was stretched (all tied maxima move together).',()=>{['A','B'].forEach(g=>dataFor(g).forEach((x,i)=>{if(x===max){dataFor(g)[i]=v;state().selected=g+':'+i}}))});
+ }
+});
+$('scale').addEventListener('click',()=>{if(state().a.concat(state().b).some(v=>!numericLimit(v*2))){setFeedback('Doubling these values would exceed the editable range.');return;}applyChange('Every A and B value was multiplied by 2.',()=>{state().a=state().a.map(v=>v*2);state().b=state().b.map(v=>v*2)})});
+$('alpha').addEventListener('change',()=>{renderStats();setFeedback(`α changed to ${$('alpha').value}. The data, ranks, statistic, and p value did not change.`,false,'Threshold')});
+$('draw-null').addEventListener('click',()=>{
+ if(!result.valid)return;let value=0,tokens=[];
+ if(mode==='signed')result.rows.filter(r=>r.rank!==null).forEach(r=>{const positive=Math.random()<.5;if(positive)value+=r.rank;tokens.push(`<span class="draw-pill">${positive?'+':'−'}${fmt(r.rank)}</span>`)});
+ else {const ids=result.rows.map((r,i)=>i);for(let i=ids.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ids[i],ids[j]]=[ids[j],ids[i]]}const chosen=new Set(ids.slice(0,result.nA));result.rows.forEach((r,i)=>{if(chosen.has(i)){value+=r.rank;tokens.push(`<span class="draw-pill">${fmt(r.rank)}</span>`)}})}
+ const extreme=Math.abs(value-result.mean)+1e-9>=result.distance;nullDraw={value,html:`${tokens.join('')} &nbsp; ${mode==='signed'?'W⁺':'R_A'} = <strong>${fmt(value)}</strong> <span class="draw-pill ${extreme?'tail':''}">${extreme?'included in p':'not in p'}</span>`};$('draw-results').innerHTML=nullDraw.html;renderDistribution();
+});
+let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{renderRaw();renderRanks();renderDistribution()},90)});
+initializeMode();
+window.WilcoxonLab={getState:()=>({mode,a:state().a.slice(),b:state().b.slice(),result}),setMode:m=>{if(!['signed','ranksum'].includes(m))throw new Error('Unknown mode');mode=m;initializeMode()}};
+})();
+</script>
+</body>
+</html>

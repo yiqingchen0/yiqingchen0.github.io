@@ -1,0 +1,90 @@
+---
+import { externalLinks, site } from '../site.config';
+import { withBase } from '../utils/url';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer container">
+	<div class="footer__top grid">
+		<nav class="footer__col" aria-label="Footer">
+			<h2 class="label muted">Pages</h2>
+			<ul>
+				{site.nav.map((item) => <li><a href={withBase(item.href)}>{item.label}</a></li>)}
+			</ul>
+		</nav>
+
+		{
+			externalLinks.length > 0 && (
+				<div class="footer__col">
+					<h2 class="label muted">Elsewhere</h2>
+					<ul>
+						{externalLinks.map((link) => (
+							<li>
+								<a class="arrow-link" href={link.href}>
+									{link.label} <span aria-hidden="true">↗</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			)
+		}
+
+		<div class="footer__col">
+			<h2 class="label muted">Contact</h2>
+			<a href={`mailto:${site.email}`}>{site.email}</a>
+		</div>
+	</div>
+
+	<div class="footer__bottom label muted">
+		<span>© {year} {site.name}</span>
+		<a class="arrow-link" href="#top">Back to top <span aria-hidden="true">↑</span></a>
+	</div>
+</footer>
+
+<style>
+	.footer {
+		padding-top: clamp(3rem, 6vw, 5rem);
+		padding-bottom: 1.25rem;
+		border-top: 1px solid var(--line);
+	}
+
+	.footer__top {
+		row-gap: 2rem;
+	}
+
+	.footer__col {
+		grid-column: span 4;
+		display: grid;
+		align-content: start;
+		gap: 0.75rem;
+		font-size: var(--fs-small);
+	}
+
+	.footer__col ul {
+		display: grid;
+		gap: 0.35rem;
+		padding: 0;
+		list-style: none;
+	}
+
+	.footer__col a:hover {
+		color: var(--accent);
+	}
+
+	.footer__bottom {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-top: clamp(3rem, 6vw, 5rem);
+		padding-top: 1rem;
+		border-top: 1px solid var(--line);
+	}
+
+	@media (max-width: 560px) {
+		.footer__col {
+			grid-column: 1 / -1;
+		}
+	}
+</style>

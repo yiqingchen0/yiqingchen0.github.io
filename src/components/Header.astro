@@ -1,0 +1,172 @@
+---
+import { site } from '../site.config';
+import { indexLabel } from '../utils/list';
+import { isActive, withBase } from '../utils/url';
+import Mark from './Mark.astro';
+
+const path = Astro.url.pathname;
+---
+
+<header class="header" transition:animate="none">
+	<a class="header__brand" href={withBase('/')} aria-label={`${site.name}, home`}>
+		<Mark size={24} />
+		<span class="header__name">{site.name}</span>
+	</a>
+
+	<button
+		class="header__toggle label"
+		type="button"
+		aria-expanded="false"
+		aria-controls="site-menu"
+		data-menu-toggle
+	>
+		<span class="header__toggle-open">Menu</span>
+		<span class="header__toggle-close">Close</span>
+	</button>
+
+	<nav id="site-menu" class="header__nav" aria-label="Main">
+		<ul>
+			{
+				site.nav.map((item, i) => (
+					<li>
+						<a href={withBase(item.href)} aria-current={isActive(path, item.href) ? 'page' : undefined}>
+							<span class="header__index label" aria-hidden="true">
+								{indexLabel(i)}
+							</span>
+							<span class="header__label">{item.label}</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</nav>
+</header>
+
+<style>
+	.header {
+		position: sticky;
+		top: 0;
+		z-index: 100;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--gap);
+		height: var(--header-h);
+		padding-inline: var(--pad);
+		background: var(--bg);
+		border-bottom: 1px solid var(--line);
+	}
+
+	.header__brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		font-weight: 520;
+		letter-spacing: -0.02em;
+		font-size: 1.0625rem;
+	}
+
+	.header__nav ul {
+		display: flex;
+		gap: clamp(16px, 2.4vw, 40px);
+		padding: 0;
+		list-style: none;
+	}
+
+	.header__nav a {
+		position: relative;
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.5em;
+		font-size: var(--fs-small);
+	}
+
+	.header__index {
+		color: var(--muted);
+		font-size: 0.6875rem;
+	}
+
+	.header__label {
+		background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+		transition: background-size 0.45s var(--ease-out);
+	}
+
+	.header__nav a:hover .header__label,
+	.header__nav a[aria-current='page'] .header__label {
+		background-size: 100% 1px;
+	}
+
+	.header__nav a[aria-current='page'] .header__index {
+		color: var(--accent);
+	}
+
+	.header__toggle {
+		display: none;
+		padding: 0.6em 0;
+	}
+
+	.header__toggle-close,
+	.header__toggle[aria-expanded='true'] .header__toggle-open {
+		display: none;
+	}
+
+	.header__toggle[aria-expanded='true'] .header__toggle-close {
+		display: inline;
+	}
+
+	@media (max-width: 760px) {
+		.header__toggle {
+			display: inline-block;
+		}
+
+		.header__nav {
+			position: fixed;
+			inset: var(--header-h) 0 0;
+			padding: var(--pad);
+			overflow-y: auto;
+			overscroll-behavior: contain;
+			background: var(--bg);
+			visibility: hidden;
+			opacity: 0;
+			transition:
+				opacity 0.35s var(--ease-out),
+				visibility 0s linear 0.35s;
+		}
+
+		:global(html.menu-open) .header__nav {
+			visibility: visible;
+			opacity: 1;
+			transition: opacity 0.35s var(--ease-out);
+		}
+
+		.header__nav ul {
+			flex-direction: column;
+			gap: 0;
+		}
+
+		.header__nav li {
+			border-bottom: 1px solid var(--line);
+		}
+
+		.header__nav a {
+			display: flex;
+			gap: 1rem;
+			padding-block: 1rem;
+			font-size: clamp(2rem, 9vw, 3rem);
+			letter-spacing: -0.03em;
+			line-height: 1.1;
+		}
+
+		.header__index {
+			font-size: var(--fs-label);
+		}
+	}
+
+	/* Phones in landscape: smaller items so the whole menu usually fits. */
+	@media (max-width: 760px) and (max-height: 480px) {
+		.header__nav a {
+			padding-block: 0.6rem;
+			font-size: clamp(1.5rem, 6vh, 2rem);
+		}
+	}
+</style>

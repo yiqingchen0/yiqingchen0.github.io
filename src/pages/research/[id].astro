@@ -1,0 +1,207 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getResearch, type ResearchEntry } from '../../utils/content';
+import { withBase } from '../../utils/url';
+
+export const getStaticPaths = (async () => {
+	const projects = await getResearch();
+	return projects.map((project, i) => ({
+		params: { id: project.id },
+		props: { project, next: projects[(i + 1) % projects.length] },
+	}));
+}) satisfies GetStaticPaths;
+
+interface Props {
+	project: ResearchEntry;
+	next: ResearchEntry;
+}
+
+const { project, next } = Astro.props;
+const { title, summary, period, status, collaborators, tags, links } = project.data;
+const { Content } = await render(project);
+---
+
+<BaseLayout title={title} description={summary}>
+	<article class="project">
+		<header class="project__header container grid" data-hero>
+			<a class="project__back label muted arrow-link" href={withBase('/research/')} data-reveal>
+				<span aria-hidden="true">←</span> Research
+			</a>
+			<h1 class="project__title" data-split>{title}</h1>
+			<p class="project__summary" data-reveal>{summary}</p>
+			<dl class="project__facts label" data-reveal>
+				<div>
+					<dt class="muted">Period</dt>
+					<dd>{period}</dd>
+				</div>
+				{
+					status && (
+						<div>
+							<dt class="muted">Status</dt>
+							<dd>{status}</dd>
+						</div>
+					)
+				}
+				{
+					tags.length > 0 && (
+						<div>
+							<dt class="muted">Topics</dt>
+							<dd>{tags.join(', ')}</dd>
+						</div>
+					)
+				}
+				{
+					collaborators && (
+						<div class="project__with">
+							<dt class="muted">With</dt>
+							<dd>{collaborators}</dd>
+						</div>
+					)
+				}
+			</dl>
+		</header>
+
+		<div class="project__body container grid">
+			<span class="rule project__rule" data-line aria-hidden="true"></span>
+			<div class="prose project__content" data-reveal>
+				<Content />
+			</div>
+			{
+				links.length > 0 && (
+					<ul class="project__links" role="list" data-reveal>
+						{links.map((link) => (
+							<li>
+								<a class="arrow-link" href={link.href}>
+									{link.label} <span aria-hidden="true">↗</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				)
+			}
+		</div>
+
+		{
+			next.id !== project.id && (
+				<nav class="project__next container" aria-label="Next project">
+					<span class="rule" data-line aria-hidden="true" />
+					<a class="project__next-link" href={withBase(`/research/${next.id}/`)}>
+						<span class="label muted">Next project</span>
+						<span class="project__next-title">
+							{next.data.title} <span aria-hidden="true">→</span>
+						</span>
+					</a>
+				</nav>
+			)
+		}
+	</article>
+</BaseLayout>
+
+<style>
+	.project__header {
+		row-gap: 1.5rem;
+		padding-top: clamp(3rem, 8vw, 7rem);
+		padding-bottom: clamp(2.5rem, 5vw, 4rem);
+	}
+
+	.project__back {
+		grid-column: 1 / span 3;
+		align-self: start;
+		padding-top: 0.9rem;
+	}
+
+	.project__back:hover {
+		color: var(--ink);
+	}
+
+	.project__title {
+		grid-column: 4 / -1;
+		font-size: var(--fs-h1);
+	}
+
+	.project__summary {
+		grid-column: 4 / span 6;
+		color: var(--muted);
+		font-size: var(--fs-lead);
+		line-height: 1.45;
+	}
+
+	.project__facts {
+		grid-column: 4 / -1;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem clamp(1.5rem, 4vw, 3.5rem);
+	}
+
+	.project__facts dd {
+		margin-top: 0.3rem;
+	}
+
+	/* Names read better in normal case than in the uppercase label style. */
+	.project__with {
+		flex-basis: 100%;
+	}
+
+	.project__with dd {
+		font-family: var(--font-sans);
+		font-size: var(--fs-small);
+		letter-spacing: 0;
+		text-transform: none;
+	}
+
+	.project__body {
+		row-gap: 2rem;
+		padding-bottom: clamp(4rem, 8vw, 7rem);
+	}
+
+	.project__rule {
+		grid-column: 1 / -1;
+	}
+
+	.project__content {
+		grid-column: 4 / span 7;
+	}
+
+	.project__links {
+		grid-column: 4 / span 7;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.5rem;
+		padding: 0;
+		list-style: none;
+	}
+
+	.project__next {
+		padding-bottom: clamp(3rem, 6vw, 5rem);
+	}
+
+	.project__next-link {
+		display: grid;
+		gap: 0.75rem;
+		padding-top: 1.5rem;
+	}
+
+	.project__next-title {
+		font-size: var(--fs-h2);
+		letter-spacing: -0.03em;
+		line-height: 1.05;
+		transition: color 0.35s var(--ease-out);
+	}
+
+	.project__next-link:hover .project__next-title {
+		color: var(--accent);
+	}
+
+	@media (max-width: 760px) {
+		.project__back,
+		.project__title,
+		.project__summary,
+		.project__facts,
+		.project__content,
+		.project__links {
+			grid-column: 1 / -1;
+		}
+	}
+</style>

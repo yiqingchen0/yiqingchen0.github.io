@@ -1,0 +1,163 @@
+---
+import type { ResearchEntry } from '../utils/content';
+import { indexLabel } from '../utils/list';
+import { withBase } from '../utils/url';
+
+interface Props {
+	projects: readonly ResearchEntry[];
+	/** Heading level of each project title, so the page outline stays correct. */
+	headingLevel?: 'h2' | 'h3';
+}
+
+const { projects, headingLevel: Heading = 'h3' } = Astro.props;
+---
+
+<ol class="rows" role="list">
+	{
+		projects.map((project, i) => (
+			<li class="row grid">
+				<span class="rule row__rule" data-line aria-hidden="true" />
+				<span class="row__index label muted" aria-hidden="true">
+					{indexLabel(i)}
+				</span>
+				<div class="row__main">
+					<Heading class="row__title">
+						<a class="row__link" href={withBase(`/research/${project.id}/`)}>
+							{project.data.title}
+						</a>
+					</Heading>
+					<p class="row__summary muted" data-reveal>
+						{project.data.summary}
+					</p>
+				</div>
+				<p class="row__meta label muted">
+					<span>{project.data.period}</span>
+					{project.data.status && <span class="row__status">{project.data.status}</span>}
+				</p>
+				<span class="row__arrow" aria-hidden="true">
+					→
+				</span>
+			</li>
+		))
+	}
+</ol>
+
+<style>
+	.rows {
+		padding: 0;
+		list-style: none;
+	}
+
+	.row {
+		position: relative;
+		align-items: start;
+		row-gap: 0.5rem;
+	}
+
+	.row:last-child {
+		border-bottom: 1px solid var(--line);
+	}
+
+	.row__rule {
+		grid-column: 1 / -1;
+		margin-bottom: clamp(1.25rem, 2.4vw, 2rem);
+	}
+
+	.row__index {
+		grid-column: 1 / span 3;
+		padding-top: 0.45rem;
+	}
+
+	.row__main {
+		grid-column: 4 / span 6;
+		display: grid;
+		gap: 0.6rem;
+		padding-bottom: clamp(1.25rem, 2.4vw, 2rem);
+	}
+
+	.row__title {
+		font-size: var(--fs-h3);
+		letter-spacing: -0.02em;
+		line-height: 1.15;
+		transition: color 0.35s var(--ease-out);
+	}
+
+	/*
+	 * The whole row is clickable, but the link's name is just the title.
+	 * z-index keeps the overlay above siblings that get a transform (the
+	 * revealed summary, the hovered arrow), which would otherwise paint over
+	 * it and swallow clicks.
+	 */
+	.row__link::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+	}
+
+	.row__link:focus-visible {
+		outline: none;
+	}
+
+	.row:has(.row__link:focus-visible) {
+		outline: 2px solid var(--accent);
+		outline-offset: 4px;
+	}
+
+	.row__summary {
+		max-width: 56ch;
+		font-size: var(--fs-small);
+	}
+
+	.row__meta {
+		grid-column: 10 / span 2;
+		display: grid;
+		gap: 0.2rem;
+		padding-top: 0.45rem;
+	}
+
+	.row__status::before {
+		content: '● ';
+		color: var(--accent);
+	}
+
+	.row__arrow {
+		grid-column: 12;
+		justify-self: end;
+		font-size: var(--fs-h3);
+		line-height: 1.15;
+		transition: transform 0.45s var(--ease-out);
+	}
+
+	.row:hover .row__title {
+		color: var(--accent);
+	}
+
+	.row:hover .row__arrow {
+		transform: translateX(6px);
+	}
+
+	@media (max-width: 760px) {
+		.row__index {
+			grid-column: 1 / span 2;
+		}
+
+		.row__main {
+			grid-column: 3 / span 9;
+			padding-bottom: 0;
+		}
+
+		.row__meta {
+			grid-column: 3 / span 9;
+			display: flex;
+			gap: 1rem;
+			padding-top: 0;
+			padding-bottom: 1.25rem;
+		}
+
+		.row__arrow {
+			grid-column: 12;
+			grid-row: 2;
+		}
+	}
+</style>

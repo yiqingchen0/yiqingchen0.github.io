@@ -1,0 +1,50 @@
+---
+interface Props {
+	label: string;
+	title: string;
+	intro?: string;
+}
+
+const { label, title, intro } = Astro.props;
+---
+
+<header class="page-header container grid" data-hero>
+	<p class="page-header__label label muted" data-reveal>{label}</p>
+	<h1 class="page-header__title" data-split>{title}</h1>
+	{intro && <p class="page-header__intro" data-reveal>{intro}</p>}
+	<slot />
+</header>
+
+<style>
+	.page-header {
+		row-gap: 1.5rem;
+		padding-top: clamp(3rem, 9vw, 8rem);
+		padding-bottom: clamp(2.5rem, 6vw, 5rem);
+	}
+
+	.page-header__label {
+		grid-column: 1 / span 3;
+		padding-top: 0.9rem;
+	}
+
+	.page-header__title {
+		grid-column: 4 / -1;
+		font-size: var(--fs-h1);
+	}
+
+	.page-header__intro {
+		grid-column: 4 / span 6;
+		max-width: 52ch;
+		color: var(--muted);
+		font-size: var(--fs-lead);
+		line-height: 1.45;
+	}
+
+	@media (max-width: 760px) {
+		.page-header__label,
+		.page-header__title,
+		.page-header__intro {
+			grid-column: 1 / -1;
+		}
+	}
+</style>

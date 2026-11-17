@@ -1,0 +1,79 @@
+---
+/*
+ * First-visit intro: a dot morphs into the logo mark and the name slides in,
+ * then the panel wipes up. It only shows when <head> has set
+ * html.intro-pending (first visit in this tab, motion allowed); scripts/intro.ts
+ * plays and removes it. The CSS animation below hides it if the script never runs.
+ */
+import { site } from '../site.config';
+import { MARK_VIEWBOX, circlePath, markPath } from '../utils/mark';
+
+const chars = [...site.name];
+---
+
+<div class="intro" data-intro aria-hidden="true">
+	<div class="intro__inner">
+		<svg class="intro__mark" viewBox={MARK_VIEWBOX} width="64" height="64" focusable="false">
+			<path data-intro-shape d={circlePath} data-to={markPath} fill="currentColor"></path>
+		</svg>
+		<span class="intro__word">
+			{chars.map((c) => <span class="intro__char">{c === ' ' ? ' ' : c}</span>)}
+		</span>
+	</div>
+</div>
+
+<style is:global>
+	.intro {
+		display: none;
+	}
+
+	html.intro-pending .intro {
+		position: fixed;
+		inset: 0;
+		z-index: 900;
+		display: grid;
+		place-items: center;
+		background: var(--bg);
+		color: var(--ink);
+		animation: intro-failsafe 0s linear 6s forwards;
+	}
+
+	html.intro-pending:has(.intro) {
+		overflow: hidden;
+	}
+
+	.intro__inner {
+		display: flex;
+		align-items: center;
+		gap: clamp(12px, 2vw, 24px);
+	}
+
+	/* Start states match the first frame of scripts/intro.ts, so nothing jumps. */
+	.intro__mark {
+		width: clamp(44px, 6vw, 72px);
+		height: auto;
+		overflow: visible;
+		opacity: 0;
+		transform: scale(0);
+	}
+
+	.intro__word {
+		display: inline-flex;
+		overflow: clip;
+		font-size: clamp(2.25rem, 1rem + 5vw, 5.5rem);
+		font-weight: 460;
+		letter-spacing: -0.04em;
+		line-height: 1.1;
+	}
+
+	.intro__char {
+		display: inline-block;
+		transform: translateY(110%);
+	}
+
+	@keyframes intro-failsafe {
+		to {
+			visibility: hidden;
+		}
+	}
+</style>

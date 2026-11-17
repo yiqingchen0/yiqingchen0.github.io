@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../utils/url';
+---
+
+<BaseLayout title="Page not found" noindex>
+	<section class="missing container grid" data-hero>
+		<p class="missing__code label muted" data-reveal>Error 404</p>
+		<h1 class="missing__title" data-split>This page isn't here.</h1>
+		<p class="missing__text" data-reveal>
+			It may have moved, or the link may be wrong.
+			<a class="arrow-link" href={withBase('/')}>Go to the home page <span aria-hidden="true">→</span></a>
+		</p>
+	</section>
+</BaseLayout>
+
+<style>
+	.missing {
+		row-gap: 1.5rem;
+		align-content: center;
+		min-height: calc(100svh - var(--header-h) - 4rem);
+		padding-block: clamp(3rem, 8vw, 6rem);
+	}
+
+	.missing__code {
+		grid-column: 1 / span 3;
+		padding-top: 0.9rem;
+	}
+
+	.missing__title {
+		grid-column: 4 / -1;
+		font-size: var(--fs-h1);
+	}
+
+	.missing__text {
+		grid-column: 4 / span 6;
+		display: grid;
+		gap: 1rem;
+		color: var(--muted);
+		font-size: var(--fs-lead);
+	}
+
+	.missing__text a {
+		justify-self: start;
+		color: var(--ink);
+		border-bottom: 1px solid currentColor;
+	}
+
+	@media (max-width: 760px) {
+		.missing__code,
+		.missing__title,
+		.missing__text {
+			grid-column: 1 / -1;
+		}
+	}
+</style>

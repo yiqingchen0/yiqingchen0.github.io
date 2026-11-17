@@ -1,0 +1,25 @@
+---
+import PageHeader from '../../components/PageHeader.astro';
+import TeachingList from '../../components/TeachingList.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getTeaching } from '../../utils/content';
+
+const courses = await getTeaching();
+---
+
+<BaseLayout title="Teaching" description="Courses taught, each with a page of its own for course materials.">
+	<PageHeader
+		label="Teaching"
+		title="Teaching"
+		intro="Graduate courses in biostatistics and causal inference at the Texas A&M University School of Public Health."
+	/>
+	<section class="container teaching" aria-label="Courses">
+		<TeachingList courses={courses} withDescription headingLevel="h2" />
+	</section>
+</BaseLayout>
+
+<style>
+	.teaching {
+		padding-bottom: clamp(4rem, 10vw, 8rem);
+	}
+</style>

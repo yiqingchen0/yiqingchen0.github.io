@@ -1,0 +1,198 @@
+---
+import PageHeader from '../components/PageHeader.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { externalLinks, site, type TimelineItem } from '../site.config';
+import { hasCv } from '../utils/content';
+import { withBase } from '../utils/url';
+
+const initials = site.name
+	.split(/\s+/)
+	.map((word) => word[0])
+	.join('');
+
+const timelines: ReadonlyArray<{ id: string; title: string; items: readonly TimelineItem[] }> = [
+	{ id: 'positions', title: 'Positions', items: site.appointments },
+	{ id: 'education', title: 'Education', items: site.education },
+	{ id: 'talks', title: 'Talks', items: site.talks },
+	{ id: 'honors', title: 'Awards and honors', items: site.honors },
+].filter((group) => group.items.length > 0);
+---
+
+<BaseLayout title="About" description={`About ${site.name}, ${site.role}, ${site.affiliation}.`}>
+	<PageHeader label="About" title={site.name} intro={`${site.role}, ${site.affiliation}`} />
+
+	<section class="about container grid" aria-label="Biography">
+		<span class="rule about__rule" data-line aria-hidden="true"></span>
+
+		{/* TODO: replace with a photo, e.g. <img src={withBase('/portrait.jpg')} alt="..." /> */}
+		<div class="about__portrait" data-reveal aria-hidden="true">
+			<span>{initials}</span>
+		</div>
+
+		<div class="about__bio prose" data-reveal>
+			<p>
+				I am an Assistant Professor of Biostatistics (tenure-track) in the Department of Epidemiology &amp;
+				Biostatistics at the Texas A&amp;M University School of Public Health. My research develops causal
+				mediation analysis for multistate processes, Bayesian inference and stochastic models of immune
+				dynamics, with applications to clinical trial endpoint projection in oncology.
+			</p>
+			<p>
+				I completed my PhD in Biostatistics, with a double minor in data science and epidemiology, at the
+				University of Texas in 2025, working at The University of Texas MD Anderson Cancer Center on how
+				radiation-induced immunosuppression shapes survival after chemoradiotherapy. Before that I earned an
+				MS in Biostatistics at the University of Florida, where I was the biostatistician for the Department of
+				Pharmacotherapy and Translational Research, and a bachelor's degree in bioinformatics at Tongji
+				University.
+			</p>
+			<p>
+				At Texas A&amp;M I teach graduate courses in biostatistics and causal inference. Away from statistics I
+				draw: my illustrations have appeared on three covers of <em>Genome Research</em>, and I translated
+				<em>Managing Your Biological Data with Python</em> into Chinese.
+			</p>
+			<div class="about__actions">
+				<a class="btn" href={`mailto:${site.email}`}>Email me</a>
+				{
+					hasCv && (
+						<a class="btn btn--quiet" href={withBase('/cv.pdf')} data-astro-reload>
+							Download CV (PDF)
+						</a>
+					)
+				}
+			</div>
+			{
+				externalLinks.length > 0 && (
+					<ul class="about__links label" role="list">
+						{externalLinks.map((link) => (
+							<li>
+								<a class="arrow-link" href={link.href}>
+									{link.label} <span aria-hidden="true">↗</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				)
+			}
+		</div>
+	</section>
+
+	{
+		timelines.map((group) => (
+			<section class="timeline container grid" aria-labelledby={`tl-${group.id}`}>
+				<h2 class="timeline__title label muted" id={`tl-${group.id}`}>
+					{group.title}
+				</h2>
+				<ol class="timeline__list" role="list">
+					{group.items.map((item) => (
+						<li class="timeline__item">
+							<span class="rule" data-line aria-hidden="true" />
+							<div class="timeline__row" data-reveal>
+								<span class="timeline__period label muted">{item.period}</span>
+								<span class="timeline__what">
+									<span class="timeline__role">{item.title}</span>
+									<span class="muted">{item.place}</span>
+								</span>
+							</div>
+						</li>
+					))}
+				</ol>
+			</section>
+		))
+	}
+</BaseLayout>
+
+<style>
+	.about {
+		row-gap: clamp(2rem, 4vw, 3rem);
+		padding-bottom: clamp(3rem, 8vw, 6rem);
+	}
+
+	.about__rule {
+		grid-column: 1 / -1;
+	}
+
+	.about__portrait {
+		grid-column: 1 / span 3;
+		display: grid;
+		place-items: center;
+		aspect-ratio: 4 / 5;
+		background: var(--surface);
+		color: var(--muted);
+		font-size: clamp(2rem, 4vw, 3.5rem);
+		letter-spacing: -0.04em;
+	}
+
+	.about__bio {
+		grid-column: 4 / span 7;
+		font-size: var(--fs-lead);
+		line-height: 1.5;
+	}
+
+	.about__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		padding-top: 1rem;
+	}
+
+	.about__links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.5rem;
+		padding: 0;
+		list-style: none;
+	}
+
+	.timeline {
+		align-items: start;
+		padding-bottom: clamp(3rem, 7vw, 5rem);
+	}
+
+	.timeline:last-of-type {
+		padding-bottom: clamp(4rem, 10vw, 8rem);
+	}
+
+	.timeline__title {
+		grid-column: 1 / span 3;
+		padding-top: 1.1rem;
+	}
+
+	.timeline__list {
+		grid-column: 4 / -1;
+		padding: 0;
+		list-style: none;
+	}
+
+	.timeline__row {
+		display: grid;
+		grid-template-columns: minmax(8rem, 2fr) 7fr;
+		gap: var(--gap);
+		padding-block: 1rem 1.25rem;
+	}
+
+	.timeline__what {
+		display: grid;
+		gap: 0.2rem;
+	}
+
+	.timeline__role {
+		font-size: 1.125rem;
+		letter-spacing: -0.01em;
+	}
+
+	@media (max-width: 760px) {
+		.about__portrait {
+			grid-column: 1 / span 6;
+		}
+
+		.about__bio,
+		.timeline__title,
+		.timeline__list {
+			grid-column: 1 / -1;
+		}
+
+		.timeline__row {
+			grid-template-columns: 1fr;
+			gap: 0.4rem;
+		}
+	}
+</style>

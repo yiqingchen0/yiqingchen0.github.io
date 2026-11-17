@@ -1,0 +1,370 @@
+# Publications. The site groups them by year (newest first), with manuscripts
+# under review (type: manuscript) in their own group at the top.
+#
+# Fields: id (unique), title, authors (Vancouver style: Family Initials, ...),
+# venue, details (volume(issue):pages), year, type, doi or url, featured.
+# type is one of: article, preprint, conference, abstract, chapter, software, manuscript.
+# featured: true puts the entry in "Selected publications" on the home page.
+#
+# Generated 2026-10-27 from Google Scholar, with every published item checked
+# against Crossref and PubMed, plus the manuscripts under review from the CV.
+
+- id: chen-2026-bayesian
+  title: "Bayesian mediation multi-state model elucidates the impact of cancer immunity on multiple oncology endpoints after chemoradiotherapy for esophageal cancer"
+  authors: "Chen Y, Zhou J, Wei P, Liu Q, Jiang X, Xia HA, Zhou J, Lin SH, Mohan R, Hobbs BP"
+  venue: "Scientific Reports"
+  year: 2026
+  type: article
+  doi: "10.1038/s41598-026-74588-z"
+  featured: true
+
+- id: yu-2025-bayesian
+  title: "Bayesian Counterfactual Machine Learning Individualizes Radiation Modality Selection to Mitigate Immunosuppression"
+  authors: "Yu D, Kane MJ, Chen Y, Lin SH, Mohan R, Hobbs BP"
+  venue: "JCO Clinical Cancer Informatics"
+  details: "9:e2500058"
+  year: 2025
+  type: article
+  doi: "10.1200/CCI-25-00058"
+  featured: true
+
+- id: yu-2025-bayesian-2
+  title: "Bayesian Counterfactual Machine Learning Individualizes Radiation Modality Selection to Mitigate Immunosuppression"
+  authors: "Yu D, Kane MJ, Chen Y, Lin SH, Mohan R, Hobbs BP"
+  venue: "Clinical Cancer Research"
+  details: "31(13_Suppl):A007"
+  year: 2025
+  type: abstract
+  doi: "10.1158/1557-3265.aimachine-a007"
+
+- id: damen-2025-defining
+  title: "Defining the Optimal Radiation-induced Lymphopenia Metric to Discern Its Survival Impact in Esophageal Cancer"
+  authors: "Damen PJJ, Peters M, Hobbs B, Chen Y, Titt U, Nout R, Mohan R, Lin SH, van Rossum PSN"
+  venue: "International Journal of Radiation Oncology*Biology*Physics"
+  details: "122(1):31-42"
+  year: 2025
+  type: article
+  doi: "10.1016/j.ijrobp.2024.12.014"
+  featured: true
+
+- id: chu-2024-personalized
+  title: "Personalized Composite Dosimetric Score–Based Machine Learning Model of Severe Radiation-Induced Lymphopenia Among Patients With Esophageal Cancer"
+  authors: "Chu Y, Zhu C, Hobbs BP, Chen Y, van Rossum PSN, Grassberger C, Zhi D, Lin SH, Mohan R"
+  venue: "International Journal of Radiation Oncology*Biology*Physics"
+  details: "120(4):1172-1180"
+  year: 2024
+  type: article
+  doi: "10.1016/j.ijrobp.2024.05.018"
+
+- id: chen-2024-radiation
+  title: "Radiation-Induced Lymphopenia is a Causal Mediator of Survival After Chemoradiation Therapy for Esophagus Cancer"
+  authors: "Chen Y, Chu Y, van Rossum PSN, Grassberger C, Lin SH, Mohan R, Hobbs BP"
+  venue: "Advances in Radiation Oncology"
+  details: "9(10):101579"
+  year: 2024
+  type: article
+  doi: "10.1016/j.adro.2024.101579"
+  featured: true
+
+- id: hu-2024-clinical
+  title: "Clinical Translation of a Deep Learning Model of Radiation-Induced Lymphopenia for Esophageal Cancer"
+  authors: "Hu Z, Mohan R, Chu Y, Wang X, van Rossum PSN, Chen Y, Grayson ME, Gearhardt AG, Grassberger C, Zhi D, Hobbs BP, Lin SH, Cao W"
+  venue: "International Journal of Particle Therapy"
+  details: "13:100624"
+  year: 2024
+  type: article
+  doi: "10.1016/j.ijpt.2024.100624"
+
+- id: damen-2024-comparing
+  title: "Comparing 90-Day Postoperative Mortality After Neoadjuvant Proton-Based Versus Photon-Based Chemoradiotherapy for Esophageal Cancer"
+  authors: "Damen PJJ, van Rossum PSN, Chen Y, Abana CO, Liao Z, Hobbs BP, Mohan R, Blum-Murphy M, Hofstetter WL, Lin SH"
+  venue: "International Journal of Particle Therapy"
+  details: "11:100012"
+  year: 2024
+  type: article
+  doi: "10.1016/j.ijpt.2024.100012"
+
+- id: fradley-2023-adverse
+  title: "Adverse Cardiovascular Events Associated With Cyclin-Dependent Kinase 4/6 Inhibitors in Patients With Metastatic Breast Cancer"
+  authors: "Fradley MG, Nguyen NHK, Madnick D, Chen Y, DeMichele A, Makhlin I, Dent S, Lefebvre B, Carver J, Upshaw JN, DeRemer D, Ky B, Guha A, Gong Y"
+  venue: "Journal of the American Heart Association"
+  details: "12(12):e029361"
+  year: 2023
+  type: article
+  doi: "10.1161/JAHA.123.029361"
+
+- id: ebied-2022-albumin
+  title: "Albumin Utilization in Spontaneous Bacterial Peritonitis"
+  authors: "Ebied AM, Rattanasuwan T, Chen Y, Khoury AP"
+  venue: "Journal of Pharmacy Practice"
+  details: "35(4):546-550"
+  year: 2022
+  type: article
+  doi: "10.1177/0897190021997002"
+
+- id: mosley-2022-randomized
+  title: "A randomized, cross-over trial of metoprolol succinate formulations to evaluate PK and PD end points for therapeutic equivalence"
+  authors: "Mosley SA, Kim S, El Rouby N, Lingineni K, Esteban VV, Gong Y, Chen Y, Estores D, Feng K, Kim H, Kinjo M, Langaee T, Li Z, Schmidt SOF, Johnson JA, Frye RF, Fang LL, Zhao L, Binkley PF, Schmidt S, Cavallari LH"
+  venue: "Clinical and Translational Science"
+  details: "15(7):1764-1775"
+  year: 2022
+  type: article
+  doi: "10.1111/cts.13294"
+
+- id: yu-2022-identify
+  title: "Identify Cancer Patients at Risk for Heart Failure using Electronic Health Record and Genetic Data"
+  authors: "Yu Z, Yang X, Chen Y, Fang R, Hogan WR, Gong Y, Wu Y"
+  venue: "2022 IEEE 10th International Conference on Healthcare Informatics (ICHI)"
+  details: "138-142"
+  year: 2022
+  type: conference
+  doi: "10.1109/ICHI54592.2022.00032"
+
+- id: jing-2022-association
+  title: "Association of antibiotic treatment with immune-related adverse events in patients with cancer receiving immunotherapy"
+  authors: "Jing Y, Chen X, Li K, Liu Y, Zhang Z, Chen Y, Liu Y, Wang Y, Lin SH, Diao L, Wang J, Lou Y, Johnson DB, Chen X, Liu H, Han L"
+  venue: "Journal for ImmunoTherapy of Cancer"
+  details: "10(1):e003779"
+  year: 2022
+  type: article
+  doi: "10.1136/jitc-2021-003779"
+
+- id: mehanna-2021-optimizing
+  title: "Optimizing Precision of Hypertension Care to Maximize Blood Pressure Control: A Pilot Study Utilizing a Smartphone App to Incorporate Plasma Renin Activity Testing"
+  authors: "Mehanna M, Chen YE, Gong Y, Handberg E, Roth B, De Leon J, Smith SM, Harrell JG, Cooper-DeHoff RM"
+  venue: "Clinical and Translational Science"
+  details: "14(2):617-624"
+  year: 2021
+  type: article
+  doi: "10.1111/cts.12922"
+
+- id: lee-2021-impact
+  title: "Impact of the CYP2C19*17 Allele on Outcomes in Patients Receiving Genotype-Guided Antiplatelet Therapy After Percutaneous Coronary Intervention"
+  authors: "Lee CR, Thomas CD, Beitelshees AL, Tuteja S, Empey PE, Lee JC, Limdi NA, Duarte JD, Skaar TC, Chen Y, Cook KJ, Coons JC, Dillon C, Franchi F, Giri J, Gong Y, Kreutz RP, McDonough CW, Stevenson JM, Weck KE, Angiolillo DJ, Johnson JA, Stouffer GA, Cavallari LH, IGNITE Network Pharmacogenetics Working Group"
+  venue: "Clinical Pharmacology & Therapeutics"
+  details: "109(3):705-715"
+  year: 2021
+  type: article
+  doi: "10.1002/cpt.2039"
+
+- id: yang-2022-medication
+  title: "Medication-Related Osteonecrosis of the Jaw in Cancer Patients: Result from the OneFlorida Clinical Research Consortium"
+  authors: "Yang G, Williams R, Wang L, Farhadfar N, Chen Y, Loiacono AT, Bian J, Holliday LS, Katz J, Gong Y"
+  venue: "Journal of Bone and Mineral Research"
+  details: "37(12):2466-2471"
+  year: 2022
+  type: article
+  doi: "10.1002/jbmr.4708"
+
+- id: sava-2020-optimal
+  title: "Optimal systolic blood pressure and reduced long-term mortality in older hypertensive women with prior coronary events – An analysis from INVEST"
+  authors: "Sava RI, Smith SM, Chen Y, Taha Y, Gong Y, Keeley EC, Cooper-Dehoff RM, Pepine CJ, Handberg EM"
+  venue: "International Journal of Cardiology Hypertension"
+  details: "7:100052"
+  year: 2020
+  type: article
+  doi: "10.1016/j.ijchy.2020.100052"
+
+- id: fradley-2020-cardiovascular
+  title: "Cardiovascular Toxicities of Cyclin Dependent Kinase (cdk) 4/6 Inhibitors in Metastatic Breast Cancer Patients"
+  authors: "Fradley MG, Nguyen N, Chen Y, Guha A, Upshaw JN, Ky B, Gong Y"
+  venue: "Circulation"
+  details: "142(Suppl 3):A16720"
+  year: 2020
+  type: abstract
+  doi: "10.1161/circ.142.suppl_3.16720"
+
+- id: nguyen-2020-racial
+  title: "Racial/Ethnic Differences in Cardiac Surveillance Evaluation for Cancer Patients Treated With Anthracycline-based Chemotherapy: The Oneflorida Clinical Research Consortium"
+  authors: "Nguyen NK, Fradley MG, Chen Y, DeRemer D, Waheed N, Langaee TY, Ahmad FS, Cooper-DeHoff RM, Pepine CJ, Gong Y"
+  venue: "Circulation"
+  details: "142(Suppl 3):A16457"
+  year: 2020
+  type: abstract
+  doi: "10.1161/circ.142.suppl_3.16457"
+
+- id: keeley-2020-attended
+  title: "Attended vs unattended systolic blood pressure measurement: A randomized comparison in patients with cardiovascular disease"
+  authors: "Keeley EC, Villanueva M, Chen YE, Gong Y, Handberg EM, Smith SM, Pepine CJ, Cooper-DeHoff RM"
+  venue: "The Journal of Clinical Hypertension"
+  details: "22(11):1987-1992"
+  year: 2020
+  type: article
+  doi: "10.1111/jch.14037"
+
+- id: thomas-2020-cardiovascular
+  title: "Cardiovascular outcomes according to clinical presentation with CYP2C19-genotype guided antiplatelet therapy in patients undergoing PCI: A multi-site investigation in real-world settings"
+  authors: "Thomas CD, Empey PE, Beitelshees AL, Tuteja S, Angiolillo DJ, Limdi NA, Lee JC, Duarte JD, Skaar TC, Chen Y, Coons JC, Dillon C, Franchi F, Gong Y, Kreutz RP, McDonough CW, Stouffer GA, Johnson JA, Lee CR, Cavallari LH"
+  venue: "JACCP: Journal of the American College of Clinical Pharmacy"
+  details: "3(8):1629-1630"
+  year: 2020
+  type: abstract
+  doi: "10.1002/jac5.1351"
+
+- id: venugopalan-2020-use
+  title: "Use of Therapeutic Drug Monitoring to Characterize Cefepime-Induced Neurotoxicity"
+  authors: "Venugopalan V, Nys C, Hurst N, Chen Y, Bruzzone M, Cherabuddi K, Iovine N, Liu J, Al-Shaer MH, Scheetz MH, Rhodes N, Peloquin CA, Klinker K"
+  venue: "bioRxiv"
+  year: 2020
+  type: preprint
+  doi: "10.1101/2020.08.13.250456"
+
+- id: ebied-2020-factors
+  title: "Factors Influencing Prescribers' Decision for Extending Venous Thromboembolism Prophylaxis in the Medical Patient Population following Hospitalization"
+  authors: "Ebied AM, Jessee J, Chen Y, Konopack J, Radhakrishnan N, DeRemer CE"
+  venue: "TH Open"
+  details: "4(3):e218-e219"
+  year: 2020
+  type: article
+  doi: "10.1055/s-0040-1716720"
+
+- id: pruitt-2020-adamts8
+  title: "ADAMTS8 Locus Associated With Abdominal Aortic Aneurysms in the UK Biobank"
+  authors: "Pruitt EY, Yang G, Chen Y, Upchurch GR, Johnson JA, Gong Y"
+  venue: "Arteriosclerosis, Thrombosis, and Vascular Biology"
+  details: "40(Suppl 1):A379"
+  year: 2020
+  type: abstract
+  url: "https://www.ahajournals.org/doi/10.1161/atvb.40.suppl_1.379"
+
+- id: tantawy-2020-zmat4
+  title: "ZMAT4 and DOCK9 Variants Associated with Heart Failure in Breast Cancer Patients in the UK Biobank Data"
+  authors: "Tantawy M, Singh S, Yang G, Gitzendanner M, Chen Y, Wu Y, Fang R, Hogan W, Gong Y"
+  venue: "Clinical Pharmacology & Therapeutics"
+  details: "107(Suppl 1):S20"
+  year: 2020
+  type: abstract
+  doi: "10.1002/cpt.1732"
+
+- id: ebied-2020-intravenous
+  title: "Intravenous unfractionated heparin dosing in obese patients using anti-Xa levels"
+  authors: "Ebied AM, Li T, Axelrod SF, Tam DJ, Chen Y"
+  venue: "Journal of Thrombosis and Thrombolysis"
+  details: "49(2):206-213"
+  year: 2020
+  type: article
+  doi: "10.1007/s11239-019-01942-6"
+
+- id: sava-2020-risk
+  title: "Risk and Blood Pressure Control Rates Across the Spectrum of Coronary Artery Disease in Hypertensive Women: An Analysis from The INternational VErapamil SR-Trandolapril STudy (INVEST)"
+  authors: "Sava RI, Chen YE, Smith SM, Gong Y, Cooper-DeHoff RM, Keeley EC, Pepine CJ, Handberg EM"
+  venue: "Journal of Women's Health"
+  details: "29(2):158-166"
+  year: 2020
+  type: article
+  doi: "10.1089/jwh.2018.7235"
+
+- id: archampong-2019-relationship
+  title: "Brief Report: Relationship Between ABCC4 SNPs and Hepatitis B Virus Suppression During Tenofovir-Containing Antiretroviral Therapy in Patients With HIV/HBV Coinfection"
+  authors: "Archampong T, Ojewale O, Bears K, Chen Y, Lartey M, Sagoe KW, Obo-Akwa A, Gong Y, Langaee T, Kwara A"
+  venue: "JAIDS Journal of Acquired Immune Deficiency Syndromes"
+  details: "82(4):421-425"
+  year: 2019
+  type: article
+  doi: "10.1097/QAI.0000000000002136"
+
+- id: sava-2019-hypertensive
+  title: "Do hypertensive women with coronary artery disease benefit from lowering systolic blood pressure under 130 mmHg? Long-term mortality in the INternational VErapamil SR-trandolapril STudy (INVEST)"
+  authors: "Sava RI, Chen Y, Taha YK, Gong Y, Smith SM, Cooper-Dehoff R, Keeley EC, Pepine CJ, Handberg EM"
+  venue: "European Heart Journal"
+  details: "40(Suppl 1):ehz746.0670"
+  year: 2019
+  type: abstract
+  doi: "10.1093/eurheartj/ehz746.0670"
+
+- id: villanueva-2019-attended
+  title: "Attended Versus Unattended Blood Pressure Measurement in Patients With Cardiovascular Disease: Does It Matter?"
+  authors: "Villanueva M, Chen YE, Smith SM, Gong Y, Handberg EM, Pepine CJ, Keeley EC, Cooper-Dehoff RM"
+  venue: "Hypertension"
+  details: "74(Suppl 1):A026"
+  year: 2019
+  type: abstract
+  doi: "10.1161/hyp.74.suppl_1.026"
+
+- id: mehanna-2019-optimizing
+  title: "Optimizing Precision of Hypertension Care to Maximize Blood Pressure Control (OPTI-BP): A Pilot Study Utilizing a Smartphone App"
+  authors: "Mehanna M, Chen YE, Gong Y, Handberg EM, Roth B, De Leon J, Smith SM, Paulson H, Montilla-Crespo J, Harrell JG, Cooper-Dehoff RM"
+  venue: "Hypertension"
+  details: "74(Suppl 1):AP181"
+  year: 2019
+  type: abstract
+  doi: "10.1161/hyp.74.suppl_1.p181"
+
+- id: yang-2019-pharmacogenomics
+  title: "Pharmacogenomics of osteonecrosis of the jaw"
+  authors: "Yang G, Singh S, Chen Y, Hamadeh IS, Langaee T, McDonough CW, Holliday LS, Lamba JK, Moreb JS, Katz J, Gong Y"
+  venue: "Bone"
+  details: "124:75-82"
+  year: 2019
+  type: article
+  doi: "10.1016/j.bone.2019.04.010"
+
+- id: wazzan-2018-radiographic
+  title: "Radiographic bone loss and the risk of medication-related osteonecrosis of the jaw (MRONJ) in multiple myeloma patients—A retrospective case control study"
+  authors: "Wazzan T, Kashtwari D, Almaden WF, Gong Y, Chen Y, Moreb J, Katz J"
+  venue: "Special Care in Dentistry"
+  details: "38(6):356-361"
+  year: 2018
+  type: article
+  doi: "10.1111/scd.12318"
+
+- id: hu-2017-cam
+  title: "CAM: A quality control pipeline for MNase-seq data"
+  authors: "Hu S, Chen X, Liao J, Chen Y, Zhao C, Zhang Y"
+  venue: "PLOS ONE"
+  details: "12(8):e0182771"
+  year: 2017
+  type: article
+  doi: "10.1371/journal.pone.0182771"
+
+- id: chen-2026-quantifying
+  title: "Quantifying Mediated Treatment Effects to Strengthen Accelerated Approval Evidence in Oncology"
+  authors: "Chen Y, Liu Q, Xia HA, Zhou J, Mo M, Hobbs BP"
+  venue: "JCO Precision Oncology"
+  details: "Revision under review"
+  year: 2026
+  type: manuscript
+
+- id: chen-2026-causal
+  title: "Causal Mediation Analysis via Counterfactual State-Space Representation in Multistate Processes"
+  authors: "Chen Y, Yang S, Wang R, Hobbs BP"
+  venue: "Biometrika"
+  details: "Revision under review"
+  year: 2026
+  type: manuscript
+
+- id: chen-2026-rfmstate
+  title: "RFmstate: Random Forest-Based Multistate Survival Analysis in R"
+  authors: "Chen Y"
+  venue: "The R Journal"
+  details: "Revision under review"
+  year: 2026
+  type: manuscript
+
+- id: gao-2026-uncertainty
+  title: "Uncertainty Quantification-Incorporated Ensemble Model for Personalized Prediction of Severe Radiotherapy-Induced Immunosuppression Among Esophageal Cancer Patients"
+  authors: "Gao B, Chu Y, Hu Z, Grayson M, van Rossum P, Grassberger C, Enderling H, Paganetti H, Chamseddine I, Lin SH, Hobbs BP, Mohan R, Chen Y"
+  venue: "Submitted"
+  year: 2026
+  type: manuscript
+
+- id: xu-2026-live
+  title: "Live Discharge from Hospice and Subsequent Care Trajectories Among Medicare Beneficiaries: A National Cohort Study"
+  authors: "Xu T, Chen Y"
+  venue: "Submitted"
+  year: 2026
+  type: manuscript
+
+- id: xu-2026-hospice
+  title: "Hospice Access and Care Trajectories Among Asian/Pacific Islander Medicare Beneficiaries: A National Cohort Study"
+  authors: "Xu T, Chen Y"
+  venue: "Submitted"
+  year: 2026
+  type: manuscript
+
+- id: chen-2024-lymphocyte
+  title: "Lymphocyte Kinetics Impact the Overall Survival of Esophageal Cancer Patients Receiving Chemoradiation Therapy"
+  authors: "Chen Y, Chu Y, Lin SH, Mohan R, Hobbs BP"
+  venue: "Submitted"
+  year: 2024
+  type: manuscript

@@ -1,0 +1,201 @@
+---
+import DensityPlot from '../components/DensityPlot.astro';
+import PublicationItem from '../components/PublicationItem.astro';
+import ResearchList from '../components/ResearchList.astro';
+import SectionHead from '../components/SectionHead.astro';
+import TeachingList from '../components/TeachingList.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../site.config';
+import { getPublications, getResearch, getTeaching } from '../utils/content';
+import { withBase } from '../utils/url';
+
+const MAX_FEATURED = 4;
+const MAX_PROJECTS = 4;
+const projects = (await getResearch()).slice(0, MAX_PROJECTS);
+const publications = (await getPublications()).filter((p) => p.data.type !== 'manuscript');
+const featured = publications.filter((p) => p.data.featured).slice(0, MAX_FEATURED);
+const selected = featured.length > 0 ? featured : publications.slice(0, MAX_FEATURED);
+const courses = await getTeaching();
+---
+
+<BaseLayout intro>
+	<section class="hero" aria-labelledby="hero-title" data-hero>
+		<div class="hero__grid container grid">
+			<p class="hero__aside" data-reveal>
+				I'm {site.name}, {site.role} in the {site.affiliation}. I develop causal mediation, Bayesian and
+				stochastic methods for oncology, from immune dynamics during chemoradiotherapy to projecting clinical
+				trial endpoints.
+			</p>
+			<div class="hero__main">
+				<h1 class="hero__title" id="hero-title" data-split>
+					Statistics for how treatments work, not only whether they do.
+				</h1>
+				<div class="hero__actions" data-reveal>
+					<a class="btn" href="#contact" data-scramble>
+						<span data-scramble-text>Get in touch</span>
+						<span aria-hidden="true">↗</span>
+					</a>
+					<a class="btn btn--quiet" href={withBase('/research/')}>See research</a>
+				</div>
+			</div>
+		</div>
+		<p class="hero__scroll label muted container" aria-hidden="true">( Scroll )</p>
+		<DensityPlot />
+	</section>
+
+	<section class="section container" aria-labelledby="research-title">
+		<SectionHead index="01" title="Research" id="research-title" href="/research/" linkLabel="All research" />
+		<ResearchList projects={projects} />
+	</section>
+
+	<section class="section container" aria-labelledby="publications-title">
+		<SectionHead
+			index="02"
+			title="Selected publications"
+			id="publications-title"
+			href="/publications/"
+			linkLabel="All publications"
+		/>
+		<ul class="pub-list" role="list">
+			{selected.map((publication) => <PublicationItem publication={publication} />)}
+		</ul>
+	</section>
+
+	<section class="section container" aria-labelledby="teaching-title">
+		<SectionHead index="03" title="Teaching" id="teaching-title" href="/teaching/" linkLabel="All teaching" />
+		<TeachingList courses={courses} />
+	</section>
+
+	<section class="contact container" id="contact" aria-labelledby="contact-title">
+		<span class="rule" data-line aria-hidden="true"></span>
+		<div class="contact__grid grid">
+			<p class="contact__index label muted">( 04 )</p>
+			<div class="contact__main">
+				<h2 class="contact__title" id="contact-title" data-split>
+					A question, a trial or a collaboration in mind?
+				</h2>
+				<a class="contact__email arrow-link" href={`mailto:${site.email}`} data-scramble data-reveal>
+					<span data-scramble-text>{site.email}</span>
+					<span aria-hidden="true">↗</span>
+				</a>
+			</div>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.hero {
+		display: grid;
+		min-height: calc(100svh - var(--header-h));
+		align-content: space-between;
+		border-bottom: 1px solid var(--line);
+	}
+
+	.hero__grid {
+		align-items: stretch;
+	}
+
+	.hero__aside {
+		grid-column: 1 / span 3;
+		padding-top: clamp(3rem, 9vh, 7rem);
+		padding-right: var(--gap);
+		border-right: 1px solid var(--line);
+		color: var(--muted);
+		font-size: var(--fs-small);
+		line-height: 1.5;
+	}
+
+	.hero__main {
+		grid-column: 4 / -1;
+		display: grid;
+		align-content: start;
+		gap: clamp(1.75rem, 3vw, 2.75rem);
+		padding-top: clamp(3rem, 9vh, 7rem);
+	}
+
+	.hero__title {
+		max-width: 15ch;
+		font-size: var(--fs-hero);
+		font-weight: 450;
+		letter-spacing: -0.045em;
+		line-height: 0.98;
+	}
+
+	.hero__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+
+	.hero__scroll {
+		padding-top: clamp(2rem, 6vh, 4rem);
+		text-align: center;
+	}
+
+	.section {
+		padding-top: clamp(4rem, 10vw, 9rem);
+	}
+
+	.pub-list {
+		padding: 0;
+		list-style: none;
+	}
+
+	.contact {
+		padding-top: clamp(4rem, 10vw, 9rem);
+		padding-bottom: clamp(4rem, 10vw, 9rem);
+	}
+
+	.contact__grid {
+		row-gap: 1.5rem;
+		padding-top: 0.75rem;
+	}
+
+	.contact__index {
+		grid-column: 1 / span 3;
+	}
+
+	.contact__main {
+		grid-column: 4 / -1;
+		display: grid;
+		gap: clamp(2rem, 4vw, 3.5rem);
+	}
+
+	.contact__title {
+		max-width: 18ch;
+		font-size: var(--fs-h1);
+	}
+
+	.contact__email {
+		justify-self: start;
+		font-size: var(--fs-h3);
+		letter-spacing: -0.02em;
+		border-bottom: 1px solid currentColor;
+		padding-bottom: 0.2em;
+		transition: color 0.35s var(--ease-out);
+	}
+
+	.contact__email:hover {
+		color: var(--accent);
+	}
+
+	@media (max-width: 760px) {
+		.hero__aside {
+			grid-column: 1 / -1;
+			grid-row: 2;
+			padding-top: 2rem;
+			padding-right: 0;
+			border-right: 0;
+		}
+
+		.hero__main,
+		.contact__index,
+		.contact__main {
+			grid-column: 1 / -1;
+		}
+
+		.hero__main {
+			padding-top: 2.5rem;
+		}
+	}
+</style>

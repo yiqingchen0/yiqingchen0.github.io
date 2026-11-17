@@ -1,0 +1,86 @@
+---
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Intro from '../components/Intro.astro';
+import { site } from '../site.config';
+import { withBase } from '../utils/url';
+
+interface Props {
+	/** Page title; the site name is appended. Omit on the home page. */
+	title?: string;
+	description?: string;
+	/** Show the first-visit intro (home page only). */
+	intro?: boolean;
+	/** Keep the page out of search results and give it no canonical URL (the 404 page). */
+	noindex?: boolean;
+}
+
+const { title, description = site.description, intro = false, noindex = false } = Astro.props;
+const pageTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.role}`;
+const canonical = Astro.site && !noindex ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+
+const pageOut = { name: 'page-out', duration: '0.3s', easing: 'cubic-bezier(0.7, 0, 0.84, 0)', fillMode: 'both' };
+const pageIn = { name: 'page-in', duration: '0.7s', delay: '0.25s', easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fillMode: 'both' };
+const pageTransition = {
+	forwards: { old: pageOut, new: pageIn },
+	backwards: { old: pageOut, new: pageIn },
+};
+---
+
+<!doctype html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{pageTitle}</title>
+		<meta name="description" content={description} />
+		{canonical && <link rel="canonical" href={canonical} />}
+		{noindex && <meta name="robots" content="noindex" />}
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={pageTitle} />
+		<meta property="og:description" content={description} />
+		{canonical && <meta property="og:url" content={canonical} />}
+		<meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)" />
+		<meta name="theme-color" content="#0e0f11" media="(prefers-color-scheme: dark)" />
+		<link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+		<meta name="generator" content={Astro.generator} />
+		<script is:inline>
+			(() => {
+				const root = document.documentElement;
+				root.classList.remove('no-js');
+				root.classList.add('js');
+				const motionOk = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+				let seen = false;
+				try {
+					seen = sessionStorage.getItem('intro-seen') === '1';
+				} catch {
+					// Storage blocked: treat as a first visit.
+				}
+				if (motionOk && !seen) root.classList.add('intro-pending');
+				// Failsafes in case the animation script never runs; scripts/main.ts
+				// clears them when it starts.
+				window.siteFailsafeTimers = [
+					setTimeout(() => root.classList.add('anim-ready'), 3500),
+					setTimeout(() => root.classList.remove('intro-pending'), 6000),
+				];
+			})();
+		</script>
+		<ClientRouter />
+	</head>
+	<body id="top">
+		<a class="skip-link" href="#main">Skip to content</a>
+		{intro && <Intro />}
+		<Header />
+		<main id="main" tabindex="-1" transition:animate={pageTransition}>
+			<slot />
+		</main>
+		<Footer />
+		<script>
+			import '../scripts/main';
+		</script>
+	</body>
+</html>

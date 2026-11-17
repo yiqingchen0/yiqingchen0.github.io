@@ -1,0 +1,132 @@
+---
+/*
+ * The home-page figure: probability densities on a shared scale.
+ * scripts/density-plot.ts cycles through the curves; without motion the first
+ * curve stays put.
+ */
+import { DISTRIBUTIONS, PLOT_BOX as box, buildCurve } from '../utils/density';
+
+const curves = DISTRIBUTIONS.map((dist) => buildCurve(dist, box));
+const [first, ...rest] = curves;
+const ticks = Array.from({ length: box.xMax - box.xMin + 1 }, (_, i) => box.xMin + i);
+// Describe what is always drawn; the cycle only runs when motion is allowed.
+const description =
+	`Probability density curve, ${first.label}, for x from ${box.xMin} to ${box.xMax}. ` +
+	`With animation on, it blends in turn into ${rest.map((curve) => curve.label).join('; ')}, ` +
+	'all on the same vertical scale.';
+---
+
+<figure class="density container" data-density data-curves={JSON.stringify(curves)}>
+	<div class="density__plot" data-density-plot>
+		<svg
+			viewBox={`0 0 ${box.width} ${box.height}`}
+			preserveAspectRatio="none"
+			role="img"
+			aria-label={description}
+		>
+			<path class="density__area" d={first.area} data-density-area></path>
+			<path class="density__line" d={first.line} vector-effect="non-scaling-stroke" data-density-line></path>
+		</svg>
+		<span class="density__axis" aria-hidden="true"></span>
+		<ol class="density__ticks label muted" aria-hidden="true">
+			{ticks.map((tick) => <li style={`--x: ${(tick - box.xMin) / (box.xMax - box.xMin)}`}>{tick}</li>)}
+		</ol>
+	</div>
+	<figcaption class="density__caption label" aria-hidden="true">
+		<span class="muted">f(x)</span>
+		<span data-density-label>{first.label}</span>
+	</figcaption>
+</figure>
+
+<style>
+	.density {
+		display: grid;
+		gap: 2.25rem;
+		padding-top: clamp(2rem, 5vw, 4rem);
+		padding-bottom: 1.25rem;
+	}
+
+	.density__plot {
+		position: relative;
+	}
+
+	.density svg {
+		width: 100%;
+		height: clamp(160px, 28vh, 320px);
+		overflow: visible;
+	}
+
+	.density__area {
+		fill: var(--density-fill);
+	}
+
+	.density__line {
+		fill: none;
+		stroke: var(--ink);
+		stroke-width: 1.5;
+		stroke-linejoin: round;
+	}
+
+	.density__axis {
+		display: block;
+		height: 1px;
+		background: var(--ink);
+	}
+
+	.density__ticks {
+		position: relative;
+		height: 1.5rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.density__ticks li {
+		position: absolute;
+		top: 0.4rem;
+		left: calc(var(--x) * 100%);
+		transform: translateX(-50%);
+	}
+
+	.density__ticks li::before {
+		content: '';
+		position: absolute;
+		top: -0.4rem;
+		left: 50%;
+		width: 1px;
+		height: 0.3rem;
+		background: var(--ink);
+	}
+
+	.density__ticks li:first-child {
+		transform: none;
+	}
+
+	.density__ticks li:first-child::before {
+		left: 0;
+	}
+
+	.density__ticks li:last-child {
+		transform: translateX(-100%);
+	}
+
+	.density__ticks li:last-child::before {
+		left: auto;
+		right: 0;
+	}
+
+	/* No uppercase here: it would turn μ, σ into Μ, Σ and f(x) into F(X). */
+	.density__caption {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		text-transform: none;
+		letter-spacing: 0;
+	}
+
+	@media (max-width: 560px) {
+		.density__ticks li:nth-child(even) {
+			visibility: hidden;
+		}
+	}
+</style>

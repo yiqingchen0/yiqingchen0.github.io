@@ -1,0 +1,127 @@
+---
+import { site } from '../site.config';
+import { abbreviateAuthors, splitAuthors } from '../utils/authors';
+import type { PublicationEntry } from '../utils/content';
+
+interface Props {
+	publication: PublicationEntry;
+	/** Show the year beside the entry (off when the list is already grouped by year). */
+	showYear?: boolean;
+}
+
+const TYPE_LABELS: Record<PublicationEntry['data']['type'], string> = {
+	article: 'Article',
+	preprint: 'Preprint',
+	conference: 'Proceedings',
+	abstract: 'Abstract',
+	chapter: 'Chapter',
+	software: 'Software',
+	manuscript: 'Manuscript',
+};
+
+const { publication, showYear = true } = Astro.props;
+const { title, authors, venue, details, year, type, doi, url } = publication.data;
+const href = doi ? `https://doi.org/${doi}` : url;
+const linkLabel = doi ? 'DOI' : 'Link';
+
+const authorParts = splitAuthors(abbreviateAuthors(authors, site.authorNames), site.authorNames);
+---
+
+<li class="pub grid">
+	<span class="rule pub__rule" data-line aria-hidden="true"></span>
+	{showYear && <span class="pub__year label muted">{year}</span>}
+	<div class="pub__body" data-reveal>
+		<h3 class="pub__title">{title}</h3>
+		<p class="pub__authors muted">
+			{authorParts.map((part) => (part.isOwner ? <strong>{part.text}</strong> : part.text))}
+		</p>
+		<p class="pub__venue">
+			<span>
+				<em>{venue}</em>
+				{details && <span class="pub__details"> {details.replace(/(?<=\w)-(?=\w)/g, '–')}</span>}
+			</span>
+			<span class="pub__type label muted">{TYPE_LABELS[type]}</span>
+		</p>
+	</div>
+	{
+		href && (
+			<a class="pub__link label arrow-link" href={href}>
+				{linkLabel}
+				<span class="visually-hidden">: {title}</span>
+				<span aria-hidden="true">↗</span>
+			</a>
+		)
+	}
+</li>
+
+<style>
+	.pub {
+		align-items: start;
+		row-gap: 0;
+	}
+
+	.pub__rule {
+		grid-column: 1 / -1;
+		margin-bottom: clamp(1.1rem, 2vw, 1.6rem);
+	}
+
+	.pub__year {
+		grid-column: 1 / span 3;
+		padding-top: 0.3rem;
+	}
+
+	.pub__body {
+		grid-column: 4 / span 7;
+		display: grid;
+		gap: 0.4rem;
+		padding-bottom: clamp(1.1rem, 2vw, 1.6rem);
+	}
+
+	.pub__title {
+		font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+		letter-spacing: -0.015em;
+		line-height: 1.25;
+	}
+
+	.pub__authors {
+		font-size: var(--fs-small);
+	}
+
+	.pub__authors strong {
+		color: var(--ink);
+		font-weight: 560;
+	}
+
+	.pub__venue {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.75rem;
+		font-size: var(--fs-small);
+	}
+
+	.pub__link {
+		grid-column: 11 / -1;
+		justify-self: end;
+		padding-top: 0.3rem;
+	}
+
+	.pub__link:hover {
+		color: var(--accent);
+	}
+
+	@media (max-width: 760px) {
+		.pub__year {
+			grid-column: 1 / -1;
+			padding-bottom: 0.5rem;
+		}
+
+		.pub__body {
+			grid-column: 1 / span 10;
+		}
+
+		.pub__link {
+			grid-column: 11 / -1;
+		}
+	}
+</style>

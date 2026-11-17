@@ -1,0 +1,65 @@
+---
+import { withBase } from '../utils/url';
+
+interface Props {
+	index: string;
+	title: string;
+	href?: string;
+	linkLabel?: string;
+	id?: string;
+}
+
+const { index, title, href, linkLabel = 'View all', id } = Astro.props;
+---
+
+<div class="section-head grid">
+	<span class="rule section-head__rule" data-line aria-hidden="true"></span>
+	<span class="section-head__index label muted">( {index} )</span>
+	<h2 class="section-head__title" id={id} data-split>{title}</h2>
+	{
+		href && (
+			<a class="section-head__link label arrow-link" href={withBase(href)} data-scramble>
+				<span data-scramble-text>{linkLabel}</span>
+				<span aria-hidden="true">→</span>
+			</a>
+		)
+	}
+</div>
+
+<style>
+	.section-head {
+		align-items: end;
+		row-gap: 1.25rem;
+		margin-bottom: clamp(2rem, 4vw, 3.5rem);
+	}
+
+	.section-head__rule {
+		grid-column: 1 / -1;
+	}
+
+	.section-head__index {
+		grid-column: 1 / span 3;
+		align-self: start;
+		padding-top: 0.75rem;
+	}
+
+	.section-head__title {
+		grid-column: 4 / span 6;
+		font-size: var(--fs-h2);
+	}
+
+	.section-head__link {
+		grid-column: 10 / -1;
+		justify-self: end;
+		padding-bottom: 0.5rem;
+	}
+
+	@media (max-width: 760px) {
+		.section-head__index,
+		.section-head__title,
+		.section-head__link {
+			grid-column: 1 / -1;
+			justify-self: start;
+		}
+	}
+</style>
