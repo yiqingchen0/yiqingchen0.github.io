@@ -7,6 +7,13 @@ terms: [Fall 2026]
 level: Graduate
 order: 1
 materials:
+  - title: StatSense Lab
+    module: Review
+    description: >-
+      Evaluate statistical reasoning across the Biostatistics I workflow.
+      Review Agent's analyses, identify errors, propose corrections, and
+      receive a score with feedback.
+    href: /teaching/pheb-602/statsense-lab/index.html
   - title: Can you beat chance?
     module: Hypothesis testing
     description: >-
@@ -30,13 +37,6 @@ materials:
       its rank, and see the exact null distribution that gives the two-sided
       p-value.
     href: /teaching/pheb-602/wilcoxon-rank-lab.html
-  - title: StatSense Lab
-    module: Review
-    description: >-
-      Evaluate statistical reasoning across the Biostatistics I workflow.
-      Review Agent's analyses, identify errors, propose corrections, and
-      receive a score with feedback.
-    href: /teaching/pheb-602/statsense-lab/index.html
 ---
 
 Graduate introductory biostatistics course for master's students in
