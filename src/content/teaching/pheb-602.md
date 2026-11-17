@@ -23,15 +23,15 @@ materials:
       power of a study design. About 35–45 minutes.
     href: /teaching/pheb-602/can-you-beat-chance.html
   - title: Why does ANOVA compare variances?
-    module: Hypothesis testing
+    module: ANOVA
     description: >-
       Move the group means apart or spread the observations out, or drag
       single points, and watch the between- and within-group mean squares, F
       and the p-value respond. Includes the F reference distribution and
       matching Stata code and output.
     href: /teaching/pheb-602/anova-variance-explorer.html
-  - title: See the ranks, understand the test
-    module: Hypothesis testing
+  - title: See the ranks. Understand Wilcoxon test
+    module: Non-parametric test
     description: >-
       The Wilcoxon signed-rank and rank-sum tests: edit an observation, follow
       its rank, and see the exact null distribution that gives the two-sided
