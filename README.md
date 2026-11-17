@@ -85,5 +85,10 @@ repository is `<username>.github.io` (served at the root), any other name
 Internal links go through `withBase()` in `src/utils/url.ts` for this reason;
 use it for any new link to a page or file on the site.
 
+StatSense Lab's build fingerprints its CSS and JavaScript and generates a
+release manifest. A cached page checks for the current release on entry. An
+active session shows a Reload prompt instead of interrupting the student's
+work. Local development and offline use continue without release checks.
+
 To host on Cloudflare Pages or Netlify instead, use build command
 `npm run build` and output directory `dist`.
