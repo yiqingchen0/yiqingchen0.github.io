@@ -6,21 +6,20 @@ import { externalLinks } from '../site.config';
 import { getPublications } from '../utils/content';
 import { groupByYear } from '../utils/list';
 
-const publications = await getPublications();
-const underReview = publications.filter((p) => p.data.type === 'manuscript');
-const published = publications.filter((p) => p.data.type !== 'manuscript');
-const groups = [
-	...(underReview.length > 0 ? [{ id: 'under-review', label: 'Under review', items: underReview }] : []),
-	...groupByYear(published).map((group) => ({ id: `year-${group.year}`, label: String(group.year), items: group.items })),
-];
+const published = (await getPublications()).filter((p) => p.data.type !== 'manuscript');
+const groups = groupByYear(published).map((group) => ({
+	id: `year-${group.year}`,
+	label: String(group.year),
+	items: group.items,
+}));
 const scholar = externalLinks.find((link) => link.label === 'Google Scholar');
 ---
 
-<BaseLayout title="Publications" description="Journal articles, proceedings papers, abstracts and manuscripts under review.">
+<BaseLayout title="Publications" description="Journal articles, proceedings papers, meeting abstracts and preprints.">
 	<PageHeader
 		label="Publications"
 		title="Publications"
-		intro="Journal articles, proceedings papers, meeting abstracts and preprints, newest first, with manuscripts under review at the top."
+		intro="Journal articles, proceedings papers, meeting abstracts and preprints, newest first."
 	>
 		{
 			scholar && (

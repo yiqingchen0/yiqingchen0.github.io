@@ -1,5 +1,5 @@
-# Publications. The site groups them by year (newest first), with manuscripts
-# under review (type: manuscript) in their own group at the top.
+# Publications. The Publications page groups entries by year (newest first).
+# Manuscripts under review (type: manuscript) are retained here but hidden on that page.
 #
 # Fields: id (unique), title, authors (Vancouver style: Family Initials, ...),
 # venue, details (volume(issue):pages), year, type, doi or url, featured.
