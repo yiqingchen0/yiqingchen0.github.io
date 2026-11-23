@@ -14,6 +14,13 @@ materials:
       Review Agent's analyses, identify errors, propose corrections, and
       receive a score with feedback.
     href: /teaching/pheb-602/statsense-lab/index.html
+  - title: Table 1 Lab
+    module: Review
+    description: >-
+      Explore study population characteristics, group summaries and P values,
+      with observed distributions, explanations of the statistical tests,
+      and reproducible Stata code.
+    href: /teaching/pheb-602/table1-lab/index.html
   - title: Can you beat chance?
     module: Hypothesis testing
     description: >-
