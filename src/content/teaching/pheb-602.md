@@ -17,9 +17,9 @@ materials:
   - title: Table 1 Lab
     module: Review
     description: >-
-      Explore study population characteristics, group summaries and P values,
-      with observed distributions, explanations of the statistical tests,
-      and reproducible Stata code.
+      Follow the analysis workflow from input data and processing to summaries,
+      Table 1 and linear regression, with interactive explanations and
+      reproducible Stata code.
     href: /teaching/pheb-602/table1-lab/index.html
   - title: Can you beat chance?
     module: Hypothesis testing
